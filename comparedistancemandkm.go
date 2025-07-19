@@ -18,19 +18,21 @@ type distance struct {
 }
 
 func main() {
-	var input distance
+	var input1, input2 distance
 
 	fmt.Println("Enter the input distance: ")
-	fmt.Scan(&input.value, &input.unit)
-	err := UnitSupportedOrNot(input)
+	fmt.Scan(&input1.value, &input1.unit)
+	fmt.Println("Enter the input distance: ")
+	fmt.Scan(&input2.value, &input2.unit)
+	err := UnitSupportedOrNot(&input1, input2)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 }
 
-func UnitSupportedOrNot(d distance) error {
-	if d.unit != "m" && d.unit != "km" {
+func UnitSupportedOrNot(d1 *distance, d2 distance) error {
+	if (d1.unit != "m" && d1.unit != "km") || (d2.unit != "m" && d2.unit != "km") {
 		return errors.New("invalid unit, supported units (m or km)")
 	}
 	return nil
