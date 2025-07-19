@@ -20,14 +20,19 @@ type distance struct {
 func main() {
 	var input1, input2 distance
 
-	fmt.Println("Enter the input distance: ")
+	fmt.Println("Enter the first input distance: ")
 	fmt.Scan(&input1.value, &input1.unit)
-	fmt.Println("Enter the input distance: ")
+	fmt.Println("Enter the second input distance: ")
 	fmt.Scan(&input2.value, &input2.unit)
 	err := UnitSupportedOrNot(&input1, input2)
 	if err != nil {
 		fmt.Println(err)
 		return
+	}
+	if input1.CompareDistances(input2) {
+		fmt.Printf("The %v %v and %v %v are equal\n", input1.value, input1.unit, input2.value, input2.unit)
+	} else {
+		fmt.Printf("The %v %v and %v %v are not equal\n", input1.value, input1.unit, input2.value, input2.unit)
 	}
 }
 
