@@ -1,21 +1,8 @@
-package main
+package compareDistance
 
-import "testing"
-
-func TestUnitSupportedOrNot(t *testing.T) {
-	d1 := distance{
-		value: 1000,
-		unit:  "m",
-	}
-	d2 := distance{
-		value: 1,
-		unit:  "km",
-	}
-	err := UnitSupportedOrNot(&d1, d2)
-	if err != nil {
-		t.Errorf("%v", err)
-	}
-}
+import (
+	"testing"
+)
 
 func TestCompareDistance(t *testing.T) {
 	tests := []struct {
@@ -57,5 +44,39 @@ func TestCompareDistance(t *testing.T) {
 				t.Errorf("CompareDistances() = %v, want %v", got, tt.expected)
 			}
 		})
+	}
+}
+
+func TestCreateDistanceStruct_Valid(t *testing.T) {
+	tests := []struct {
+		name  string
+		value int
+		unit  unit
+	}{
+		{"Valid meters", 1000, m},
+		{"Valid kilometers", 2, km},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := CreateDistancesStruct(tt.value, tt.unit)
+			if err != nil {
+				t.Errorf("Expected no error, got: %v", err)
+			}
+		})
+	}
+}
+
+func TestCreateDistanceStruct_NegativeValue(t *testing.T) {
+	_, err := CreateDistancesStruct(-1, m)
+	if err == nil {
+		t.Errorf("Expected error for negative value, got none")
+	}
+}
+
+func TestCreateDistanceStruct_InvalidUnit(t *testing.T) {
+	_, err := CreateDistancesStruct(1, "kmm")
+	if err == nil {
+		t.Errorf("Expected error for invalid unit, got none")
 	}
 }

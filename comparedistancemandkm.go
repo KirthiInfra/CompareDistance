@@ -1,8 +1,7 @@
-package main
+package compareDistance
 
 import (
 	"errors"
-	"fmt"
 )
 
 type unit string
@@ -17,39 +16,22 @@ type distance struct {
 	unit  unit
 }
 
-func main() {
-	var input1, input2 distance
-
-	fmt.Println("Enter the first input distance: ")
-	fmt.Scan(&input1.value, &input1.unit)
-	fmt.Println("Enter the second input distance: ")
-	fmt.Scan(&input2.value, &input2.unit)
-	err := UnitSupportedOrNot(&input1, input2)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	if input1.CompareDistances(input2) {
-		fmt.Printf("The %v %v and %v %v are equal\n", input1.value, input1.unit, input2.value, input2.unit)
-	} else {
-		fmt.Printf("The %v %v and %v %v are not equal\n", input1.value, input1.unit, input2.value, input2.unit)
-	}
-}
-
-func UnitSupportedOrNot(d1 *distance, d2 distance) error {
-	if (d1.unit != m && d1.unit != km) || (d2.unit != m && d2.unit != km) {
-		return errors.New("invalid unit, supported units (m or km)")
-	}
-	return nil
-}
-
 func (d1 *distance) CompareDistances(d2 distance) bool {
 	if d1.unit == d2.unit {
 		return d1.value == d2.value
-	} else {
-		if (d1.unit == km && d1.value*1000 == d2.value) || (d2.unit == km && d2.value*1000 == d1.value) {
-			return true
-		}
-		return false
 	}
+	if (d1.unit == km && d1.value*1000 == d2.value) || (d2.unit == km && d2.value*1000 == d1.value) {
+		return true
+	}
+	return false
+}
+
+func CreateDistancesStruct(value int, unit unit) (*distance, error) {
+	if value <= 0 {
+		return nil, errors.New("cannot create struct with zero or negative value")
+	}
+	if unit != m && unit != km {
+		return nil, errors.New("invalid unit, supported units are 'm' or 'km'")
+	}
+	return &distance{value: value, unit: unit}, nil
 }
