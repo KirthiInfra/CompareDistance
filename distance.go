@@ -40,24 +40,6 @@ func (d *distance) InMeter() *distance {
 	return d
 }
 
-func (d *distance) InKilometer() *distance {
-	if d.unit == m {
-		return &distance{value: d.value / 1000, unit: km}
-	} else if d.unit == cm {
-		return &distance{value: d.value / 100000, unit: km}
-	}
-	return d
-}
-
-func (d *distance) InCentimeter() *distance {
-	if d.unit == m {
-		return &distance{value: d.value * 100, unit: cm}
-	} else if d.unit == km {
-		return &distance{value: d.value * 100000, unit: cm}
-	}
-	return d
-}
-
 func (d *distance) Add(d1 *distance) (float64, unit) {
 	if d.unit == m {
 		return d.value + d1.InMeter().value, d.unit
