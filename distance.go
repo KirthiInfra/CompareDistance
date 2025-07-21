@@ -41,12 +41,16 @@ func (d *distance) InMeter() *distance {
 }
 
 func (d *distance) Add(d1 *distance) (float64, unit) {
-	if d.unit == m {
-		return d.value + d1.InMeter().value, d.unit
-	} else if d.unit == km {
-		return d.value + d1.InMeter().value*0.001, d.unit
-	} else if d.unit == cm {
-		return d.value + d1.InMeter().value*100, d.unit
+	converter := map[unit]float64{
+		m:  d.value + d1.InMeter().value,
+		km: d.value + d1.InMeter().value*0.001,
+		cm: d.value + d1.InMeter().value*100,
 	}
+
+	value, exist := converter[d.unit]
+	if exist {
+		return value, d.unit
+	}
+
 	return 0, d.unit
 }
