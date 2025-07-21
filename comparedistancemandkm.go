@@ -13,7 +13,7 @@ const (
 )
 
 type distance struct {
-	value int
+	value float64
 	unit  unit
 }
 
@@ -21,7 +21,7 @@ func (d *distance) IsDistanceEqual(d1 *distance) bool {
 	return d.InMeter().value == d1.InMeter().value
 }
 
-func CreateDistancesStruct(value int, unit unit) (*distance, error) {
+func CreateDistancesStruct(value float64, unit unit) (*distance, error) {
 	if value <= 0 {
 		return nil, errors.New("cannot create struct with zero or negative value")
 	}
@@ -58,7 +58,7 @@ func (d *distance) InCentimeter() *distance {
 	return d
 }
 
-func (d *distance) AddTwoDistance(d1 *distance) (int, unit) {
+func (d *distance) AddTwoDistance(d1 *distance) (float64, unit) {
 	if d.unit == m {
 		return d.value + d1.InMeter().value, d.unit
 	} else if d.unit == km {

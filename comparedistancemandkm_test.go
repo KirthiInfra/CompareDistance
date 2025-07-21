@@ -74,7 +74,7 @@ func TestCompareDistance(t *testing.T) {
 func TestCreateDistanceStructValid(t *testing.T) {
 	tests := []struct {
 		name  string
-		value int
+		value float64
 		unit  unit
 	}{
 		{"Valid Meter Unit", 1000, m},
