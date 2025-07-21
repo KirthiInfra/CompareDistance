@@ -39,7 +39,7 @@ func TestCompareDistance(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := tt.d1.CompareDistances(tt.d2)
+			got := tt.d1.IsDistanceEqual(tt.d2)
 			if got != tt.expected {
 				t.Errorf("CompareDistances() = %v, want %v", got, tt.expected)
 			}

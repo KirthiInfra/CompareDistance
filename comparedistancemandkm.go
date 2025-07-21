@@ -16,7 +16,7 @@ type distance struct {
 	unit  unit
 }
 
-func (d1 *distance) CompareDistances(d2 distance) bool {
+func (d1 *distance) IsDistanceEqual(d2 distance) bool {
 	if d1.unit == d2.unit {
 		return d1.value == d2.value
 	}
