@@ -71,7 +71,7 @@ func TestCompareDistance(t *testing.T) {
 	}
 }
 
-func TestCreateDistanceStructValid(t *testing.T) {
+func TestCreateDistanceWithValidParameters(t *testing.T) {
 	tests := []struct {
 		name  string
 		value float64
