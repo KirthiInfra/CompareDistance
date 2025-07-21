@@ -116,7 +116,7 @@ func TestCreateDistanceWithValidUnitCm(t *testing.T) {
 func TestAddTwoDistanceInMeter(t *testing.T) {
 	d1 := distance{value: 5, unit: m}
 	d2 := distance{value: 1, unit: km}
-	add, unit := d1.AddTwoDistance(&d2)
+	add, unit := d1.Add(&d2)
 
 	if add != 1005 {
 		t.Errorf("cannot expected error for invalid unit, got none")
@@ -130,7 +130,7 @@ func TestAddTwoDistanceInMeter(t *testing.T) {
 func TestAddTwoDistanceInKilometer(t *testing.T) {
 	d1 := distance{value: 5, unit: km}
 	d2 := distance{value: 1000, unit: m}
-	add, unit := d1.AddTwoDistance(&d2)
+	add, unit := d1.Add(&d2)
 
 	if add != 6 {
 		t.Errorf("cannot expected error for invalid unit, got none")
@@ -144,7 +144,7 @@ func TestAddTwoDistanceInKilometer(t *testing.T) {
 func TestAddTwoDistanceInCentimeter(t *testing.T) {
 	d1 := distance{value: 5, unit: cm}
 	d2 := distance{value: 1, unit: m}
-	add, unit := d1.AddTwoDistance(&d2)
+	add, unit := d1.Add(&d2)
 
 	if add != 105 {
 		t.Errorf("cannot expected error for invalid unit, got none")

@@ -58,7 +58,7 @@ func (d *distance) InCentimeter() *distance {
 	return d
 }
 
-func (d *distance) AddTwoDistance(d1 *distance) (float64, unit) {
+func (d *distance) Add(d1 *distance) (float64, unit) {
 	if d.unit == m {
 		return d.value + d1.InMeter().value, d.unit
 	} else if d.unit == km {
