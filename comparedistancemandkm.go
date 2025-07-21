@@ -17,33 +17,17 @@ type distance struct {
 	unit  unit
 }
 
-func (d1 *distance) IsDistanceEqual(d2 distance) bool {
-	if d1.unit == d2.unit {
-		return d1.value == d2.value
+func (d *distance) InMeter() *distance {
+	if d.unit == km {
+		return &distance{value: d.value * 1000, unit: m}
+	} else if d.unit == cm {
+		return &distance{value: d.value / 100, unit: m}
 	}
-	switch d1.unit {
-	case cm:
-		if d2.unit == m {
-			return d1.value == d2.value*100
-		} else {
-			return d1.value == d2.value*100000
-		}
-	case m:
-		if d2.unit == cm {
-			return d1.value*100 == d2.value
-		} else {
+	return d
+}
 
-			return d1.value == d2.value*1000
-		}
-	case km:
-		if d2.unit == cm {
-			return d1.value*1000 == d2.value/100
-		} else {
-			return d1.value*1000 == d2.value
-		}
-	}
-
-	return false
+func (d *distance) IsDistanceEqual(d1 *distance) bool {
+	return d.InMeter().value == d1.InMeter().value
 }
 
 func CreateDistancesStruct(value int, unit unit) (*distance, error) {
