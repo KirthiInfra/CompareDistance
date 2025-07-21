@@ -47,7 +47,7 @@ func TestCompareDistance(t *testing.T) {
 	}
 }
 
-func TestCreateDistanceStruct_Valid(t *testing.T) {
+func TestCreateDistanceStructValid(t *testing.T) {
 	tests := []struct {
 		name  string
 		value int
@@ -67,16 +67,24 @@ func TestCreateDistanceStruct_Valid(t *testing.T) {
 	}
 }
 
-func TestCreateDistanceStruct_NegativeValue(t *testing.T) {
+func TestCreateDistanceStructNegativeValue(t *testing.T) {
 	_, err := CreateDistancesStruct(-1, m)
 	if err == nil {
 		t.Errorf("Expected error for negative value, got none")
 	}
 }
 
-func TestCreateDistanceStruct_InvalidUnit(t *testing.T) {
+func TestCreateDistanceStructInvalidUnit(t *testing.T) {
 	_, err := CreateDistancesStruct(1, "kmm")
 	if err == nil {
 		t.Errorf("Expected error for invalid unit, got none")
 	}
 }
+
+func TestCreateDistanceStructInvalidUnitCm(t *testing.T) {
+	_, err := CreateDistancesStruct(1, "cm")
+	if err == nil {
+		t.Errorf("Expected error for invalid unit, got none")
+	}
+}
+
