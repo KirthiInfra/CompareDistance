@@ -21,7 +21,7 @@ func (d *distance) IsDistanceEqual(d1 *distance) bool {
 	return d.InMeter().value == d1.InMeter().value
 }
 
-func CreateDistancesStruct(value float64, unit unit) (*distance, error) {
+func NewDistance(value float64, unit unit) (*distance, error) {
 	if value <= 0 {
 		return nil, errors.New("cannot create struct with zero or negative value")
 	}

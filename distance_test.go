@@ -84,7 +84,7 @@ func TestCreateDistanceStructValid(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := CreateDistancesStruct(tt.value, tt.unit)
+			_, err := NewDistance(tt.value, tt.unit)
 			if err != nil {
 				t.Errorf("Expected no error, got: %v", err)
 			}
@@ -93,21 +93,21 @@ func TestCreateDistanceStructValid(t *testing.T) {
 }
 
 func TestCreateDistanceStructNegativeValue(t *testing.T) {
-	_, err := CreateDistancesStruct(-1, m)
+	_, err := NewDistance(-1, m)
 	if err == nil {
 		t.Errorf("Expected error for negative value, got none")
 	}
 }
 
 func TestCreateDistanceStructInvalidUnit(t *testing.T) {
-	_, err := CreateDistancesStruct(1, "kmm")
+	_, err := NewDistance(1, "kmm")
 	if err == nil {
 		t.Errorf("Expected error for invalid unit, got none")
 	}
 }
 
 func TestCreateDistanceStructValidUnitCm(t *testing.T) {
-	_, err := CreateDistancesStruct(1, "cm")
+	_, err := NewDistance(1, "cm")
 	if err != nil {
 		t.Errorf("Expected error for invalid unit, got none")
 	}
