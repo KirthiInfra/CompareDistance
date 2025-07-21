@@ -20,18 +20,27 @@ type distance struct {
 func (d1 *distance) IsDistanceEqual(d2 distance) bool {
 	if d1.unit == d2.unit {
 		return d1.value == d2.value
-	} else if d1.unit == km && d1.value*100000 == d2.value {
-		return true
-	} else if d1.unit == km && d1.value*1000 == d2.value {
-		return true
-	} else if d1.unit == m && d1.value*100 == d2.value {
-		return true
-	} else if d1.unit == m && d1.value == d2.value*1000 {
-		return true
-	} else if d1.unit == cm && d1.value == d2.value*100 {
-		return true
-	} else if d1.unit == cm && d1.value == d2.value*100000 {
-		return true
+	}
+	switch d1.unit {
+	case cm:
+		if d2.unit == m {
+			return d1.value == d2.value*100
+		} else {
+			return d1.value == d2.value*100000
+		}
+	case m:
+		if d2.unit == cm {
+			return d1.value*100 == d2.value
+		} else {
+
+			return d1.value == d2.value*1000
+		}
+	case km:
+		if d2.unit == cm {
+			return d1.value*1000 == d2.value/100
+		} else {
+			return d1.value*1000 == d2.value
+		}
 	}
 
 	return false
