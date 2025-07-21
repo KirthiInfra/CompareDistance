@@ -1,6 +1,7 @@
 package compareDistance
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -111,4 +112,32 @@ func TestCreateDistanceStructValidUnitCm(t *testing.T) {
 	if err != nil {
 		t.Errorf("Expected error for invalid unit, got none")
 	}
+}
+
+func TestAddTwoDistanceInMeter(t *testing.T) {
+	d1 := distance{value: 5, unit: m}
+	d2 := distance{value: 1, unit: km}
+	add, unit := d1.AddTwoDistance(&d2)
+
+	if add != 1005 {
+		t.Errorf("cannot expected error for invalid unit, got none")
+	}
+	if unit != m {
+		t.Errorf("cannot expected error for invalid unit, got none")
+	}
+
+}
+
+func TestAddTwoDistanceInKilometer(t *testing.T) {
+	d1 := distance{value: 5, unit: km}
+	d2 := distance{value: 1000, unit: m}
+	add, unit := d1.AddTwoDistance(&d2)
+
+	if add != 6 {
+		t.Errorf("cannot expected error for invalid unit, got none")
+	}
+	if unit != km {
+		t.Errorf("cannot expected error for invalid unit, got none")
+	}
+
 }
