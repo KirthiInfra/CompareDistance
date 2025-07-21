@@ -49,11 +49,22 @@ func (d *distance) InKilometer() *distance {
 	return d
 }
 
+func (d *distance) InCentimeter() *distance {
+	if d.unit == m {
+		return &distance{value: d.value * 100, unit: cm}
+	} else if d.unit == km {
+		return &distance{value: d.value * 100000, unit: cm}
+	}
+	return d
+}
+
 func (d *distance) AddTwoDistance(d1 *distance) (int, unit) {
 	if d.unit == m {
 		return d.value + d1.InMeter().value, d.unit
 	} else if d.unit == km {
 		return d.value + d1.InKilometer().value, d.unit
+	} else if d.unit == cm {
+		return d.value + d1.InCentimeter().value, d.unit
 	}
 	return 0, d.unit
 }

@@ -1,7 +1,6 @@
 package compareDistance
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -137,6 +136,20 @@ func TestAddTwoDistanceInKilometer(t *testing.T) {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
 	if unit != km {
+		t.Errorf("cannot expected error for invalid unit, got none")
+	}
+
+}
+
+func TestAddTwoDistanceInCentimeter(t *testing.T) {
+	d1 := distance{value: 5, unit: cm}
+	d2 := distance{value: 1, unit: m}
+	add, unit := d1.AddTwoDistance(&d2)
+
+	if add != 105 {
+		t.Errorf("cannot expected error for invalid unit, got none")
+	}
+	if unit != cm {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
 
