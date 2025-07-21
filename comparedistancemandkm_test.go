@@ -34,6 +34,29 @@ func TestCompareDistance(t *testing.T) {
 			d1:       distance{value: 1, unit: km},
 			d2:       distance{value: 1000, unit: m},
 			expected: true,
+		}, {
+			name:     "100 centimeter equals to 1 meter",
+			d1:       distance{value: 100, unit: cm},
+			d2:       distance{value: 1, unit: m},
+			expected: true,
+		},
+		{
+			name:     "10 meters equals to 1000 centimeters",
+			d1:       distance{value: 10, unit: m},
+			d2:       distance{value: 1000, unit: cm},
+			expected: true,
+		},
+		{
+			name:     "5 kilometers equals to 500000 centimeters",
+			d1:       distance{value: 5, unit: km},
+			d2:       distance{value: 500000, unit: cm},
+			expected: true,
+		},
+		{
+			name:     "200000 centimeters equals to 2 kilometers",
+			d1:       distance{value: 200000, unit: cm},
+			d2:       distance{value: 2, unit: km},
+			expected: true,
 		},
 	}
 
@@ -41,7 +64,7 @@ func TestCompareDistance(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got := tt.d1.IsDistanceEqual(tt.d2)
 			if got != tt.expected {
-				t.Errorf("CompareDistances() = %v, want %v", got, tt.expected)
+				t.Errorf("IsDistanceEqual() = %v, want %v", got, tt.expected)
 			}
 		})
 	}
@@ -53,8 +76,9 @@ func TestCreateDistanceStructValid(t *testing.T) {
 		value int
 		unit  unit
 	}{
-		{"Valid meters", 1000, m},
-		{"Valid kilometers", 2, km},
+		{"Valid Meter Unit", 1000, m},
+		{"Valid Kilometer Unit", 2, km},
+		{"Valid Centimeter Unit", 100, cm},
 	}
 
 	for _, tt := range tests {
