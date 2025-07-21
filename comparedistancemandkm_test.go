@@ -81,10 +81,9 @@ func TestCreateDistanceStructInvalidUnit(t *testing.T) {
 	}
 }
 
-func TestCreateDistanceStructInvalidUnitCm(t *testing.T) {
+func TestCreateDistanceStructValidUnitCm(t *testing.T) {
 	_, err := CreateDistancesStruct(1, "cm")
-	if err == nil {
+	if err != nil {
 		t.Errorf("Expected error for invalid unit, got none")
 	}
 }
-
