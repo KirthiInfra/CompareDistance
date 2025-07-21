@@ -92,21 +92,21 @@ func TestCreateDistanceWithValidParameters(t *testing.T) {
 	}
 }
 
-func TestCreateDistanceStructNegativeValue(t *testing.T) {
+func TestCannotCreateDistanceWithNegativeValue(t *testing.T) {
 	_, err := NewDistance(-1, m)
 	if err == nil {
 		t.Errorf("Expected error for negative value, got none")
 	}
 }
 
-func TestCreateDistanceStructInvalidUnit(t *testing.T) {
+func TestCannotCreateDistanceWithInvalidUnit(t *testing.T) {
 	_, err := NewDistance(1, "kmm")
 	if err == nil {
 		t.Errorf("Expected error for invalid unit, got none")
 	}
 }
 
-func TestCreateDistanceStructValidUnitCm(t *testing.T) {
+func TestCreateDistanceWithValidUnitCm(t *testing.T) {
 	_, err := NewDistance(1, "cm")
 	if err != nil {
 		t.Errorf("Expected error for invalid unit, got none")
