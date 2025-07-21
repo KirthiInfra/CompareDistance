@@ -1,4 +1,4 @@
-package compareDistance
+package Distance
 
 import (
 	"errors"
