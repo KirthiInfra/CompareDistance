@@ -1,4 +1,4 @@
-package Distance
+package Measurement
 
 import (
 	"testing"
