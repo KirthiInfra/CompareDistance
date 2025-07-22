@@ -10,47 +10,72 @@ const (
 	m  unit = "m"
 	km unit = "km"
 	cm unit = "cm"
+	g  unit = "g"
+	kg unit = "kg"
+	mg unit = "mg"
 )
 
-type distance struct {
+type measurement struct {
 	value float64
 	unit  unit
+	conversed float64
 }
 
-func (d *distance) IsDistanceEqual(d1 *distance) bool {
-	return d.InMeter().value == d1.InMeter().value
+type distance struct {
+	measurement
+} 
+
+type weight struct {
+	measurement
 }
 
-func NewDistance(value float64, unit unit) (*distance, error) {
+func (d *measurement) IsEqual(d1 *measurement) bool {
+	return d.conversed == d1.conversed
+}
+
+
+func weightMap(Unit unit) float64 {
+	m := map[unit]float64{
+		kg: 1000,
+		g:  1,
+		mg: 0.001,
+		
+	}
+	value,okay := m[Unit];if okay{
+		return value
+	}
+	return 0
+}
+
+func distanceMap(Unit unit) float64 {
+	m := map[unit]float64{
+		km: 1000,
+		m:  1,
+		cm: 0.01,
+	}
+
+	value,okay := m[Unit];if okay{
+		return value
+	}
+	return 0
+}
+
+func NewMeasurement(value float64, unit unit) (*measurement, error) {
 	if value <= 0 {
 		return nil, errors.New("cannot create struct with zero or negative value")
 	}
-	if unit != m && unit != km && unit != cm {
-		return nil, errors.New("invalid unit, supported units are 'm' or 'km' or 'cm'")
+	switch unit {
+	case m, km, cm, g, kg, mg:
+		return &measurement{value: value,
+			unit:      unit,
+			conversed: value * (weightMap(unit)+distanceMap(unit))}, nil
+	default:
+		return nil, errors.New("invalid unit, supported units are 'm' or 'km' or 'cm' or 'g' or 'kg' or 'mg'")
 	}
-	return &distance{value: value, unit: unit}, nil
 }
 
-func (d *distance) InMeter() *distance {
-	if d.unit == km {
-		return &distance{value: d.value * 1000, unit: m}
-	} else if d.unit == cm {
-		return &distance{value: d.value / 100, unit: m}
-	}
-	return d
-}
-
-func (d *distance) Add(d1 *distance) (float64, unit) {
-	converter := map[unit]float64{
-		m:  d.value + d1.InMeter().value,
-		km: d.value + d1.InMeter().value*0.001,
-		cm: d.value + d1.InMeter().value*100,
-	}
-
-	value, exist := converter[d.unit]
-	if exist {
-		return value, d.unit
-	}
-
-	return 0, d.unit
+func (m *measurement) Add(m1 *measurement)(*measurement) {
+	result := m.conversed + m1.conversed
+	div := distanceMap(m.unit)+ weightMap(m.unit)
+	return &measurement{value: result/div, unit: m.unit, conversed: result}
 }
