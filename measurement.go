@@ -4,26 +4,31 @@ import (
 	"errors"
 )
 
-type unit string
+type Unit struct {
+	name                 string
+	baseConversionFactor float64
+	unitType             string
+}
 
-const (
-	m  unit = "m"
-	km unit = "km"
-	cm unit = "cm"
-	g  unit = "g"
-	kg unit = "kg"
-	mg unit = "mg"
+var (
+	meter      = Unit{name: "m", baseConversionFactor: 1, unitType: "distance"}
+	kilometer  = Unit{name: "km", baseConversionFactor: 1000, unitType: "distance"}
+	centimeter = Unit{name: "cm", baseConversionFactor: 0.01, unitType: "distance"}
+
+	gram      = Unit{name: "g", baseConversionFactor: 1, unitType: "weight"}
+	kilogram  = Unit{name: "kg", baseConversionFactor: 1000, unitType: "weight"}
+	milligram = Unit{name: "mg", baseConversionFactor: 0.001, unitType: "weight"}
 )
 
 type measurement struct {
-	value float64
-	unit  unit
+	value     float64
+	unit      Unit
 	conversed float64
 }
 
 type distance struct {
 	measurement
-} 
+}
 
 type weight struct {
 	measurement
@@ -33,49 +38,28 @@ func (d *measurement) IsEqual(d1 *measurement) bool {
 	return d.conversed == d1.conversed
 }
 
-
-func weightMap(Unit unit) float64 {
-	m := map[unit]float64{
-		kg: 1000,
-		g:  1,
-		mg: 0.001,
-		
-	}
-	value,okay := m[Unit];if okay{
-		return value
-	}
-	return 0
-}
-
-func distanceMap(Unit unit) float64 {
-	m := map[unit]float64{
-		km: 1000,
-		m:  1,
-		cm: 0.01,
-	}
-
-	value,okay := m[Unit];if okay{
-		return value
-	}
-	return 0
-}
-
-func NewMeasurement(value float64, unit unit) (*measurement, error) {
+func NewMeasurement(value float64, unit Unit) (*measurement, error) {
 	if value <= 0 {
 		return nil, errors.New("cannot create struct with zero or negative value")
 	}
-	switch unit {
-	case m, km, cm, g, kg, mg:
-		return &measurement{value: value,
-			unit:      unit,
-			conversed: value * (weightMap(unit)+distanceMap(unit))}, nil
-	default:
-		return nil, errors.New("invalid unit, supported units are 'm' or 'km' or 'cm' or 'g' or 'kg' or 'mg'")
-	}
+
+	return &measurement{
+		value:     value,
+		unit:      unit,
+		conversed: value * unit.baseConversionFactor,
+	}, nil
 }
 
-func (m *measurement) Add(m1 *measurement)(*measurement) {
+func (m *measurement) Add(m1 *measurement) (*measurement, error) {
+	if m.unit.unitType != m1.unit.unitType {
+		return nil, errors.New("cannot add different unit types (e.g. weight and distance)")
+	}
+
 	result := m.conversed + m1.conversed
-	div := distanceMap(m.unit)+ weightMap(m.unit)
-	return &measurement{value: result/div, unit: m.unit, conversed: result}
+	baseFactor := m.unit.baseConversionFactor
+	return &measurement{
+		value:     result / baseFactor,
+		unit:      m.unit,
+		conversed: result,
+	}, nil
 }

@@ -3,67 +3,68 @@ package Measurement
 import (
 	"testing"
 )
+
 func TestCompareDistance(t *testing.T) {
 	tests := []struct {
 		name     string
 		d1Val    float64
-		d1Unit   unit
+		d1Unit   Unit
 		d2Val    float64
-		d2Unit   unit
+		d2Unit   Unit
 		expected bool
 	}{
 		{
-			name:     "1000 meters equal to 1000 meters",
-			d1Val:    1000, d1Unit: m,
-			d2Val:    1000, d2Unit: m,
+			name:  "1000 meters equal to 1000 meters",
+			d1Val: 1000, d1Unit: meter,
+			d2Val: 1000, d2Unit: meter,
 			expected: true,
 		},
 		{
-			name:     "1 meter does not equal to 2 meters",
-			d1Val:    1, d1Unit: m,
-			d2Val:    2, d2Unit: m,
+			name:  "1 meter does not equal to 2 meters",
+			d1Val: 1, d1Unit: meter,
+			d2Val: 2, d2Unit: meter,
 			expected: false,
 		},
 		{
-			name:     "1000 meters equal to 1 kilometer",
-			d1Val:    1000, d1Unit: m,
-			d2Val:    1, d2Unit: km,
+			name:  "1000 meters equal to 1 kilometer",
+			d1Val: 1000, d1Unit: meter,
+			d2Val: 1, d2Unit: kilometer,
 			expected: true,
 		},
 		{
-			name:     "1 kilometer equals to 1000 meters",
-			d1Val:    1, d1Unit: km,
-			d2Val:    1000, d2Unit: m,
+			name:  "1 kilometer equals to 1000 meters",
+			d1Val: 1, d1Unit: kilometer,
+			d2Val: 1000, d2Unit: meter,
 			expected: true,
 		},
 		{
-			name:     "100 centimeter equals to 1 meter",
-			d1Val:    1, d1Unit: m,
-			d2Val:    100, d2Unit: cm,
+			name:  "100 centimeter equals to 1 meter",
+			d1Val: 1, d1Unit: meter,
+			d2Val: 100, d2Unit: centimeter,
 			expected: true,
 		},
 		{
-			name:     "10 meters equals to 1000 centimeters",
-			d1Val:    10, d1Unit: m,
-			d2Val:    1000, d2Unit: cm,
+			name:  "10 meters equals to 1000 centimeters",
+			d1Val: 10, d1Unit: meter,
+			d2Val: 1000, d2Unit: centimeter,
 			expected: true,
 		},
 		{
-			name:     "5 kilometers equals to 500000 centimeters",
-			d1Val:    5, d1Unit: km,
-			d2Val:    500000, d2Unit: cm,
+			name:  "5 kilometers equals to 500000 centimeters",
+			d1Val: 5, d1Unit: kilometer,
+			d2Val: 500000, d2Unit: centimeter,
 			expected: true,
 		},
 		{
-			name:     "200000 centimeters equals to 2 kilometers",
-			d1Val:    2, d1Unit: km,
-			d2Val:    200000, d2Unit: cm,
+			name:  "200000 centimeters equals to 2 kilometers",
+			d1Val: 2, d1Unit: kilometer,
+			d2Val: 200000, d2Unit: centimeter,
 			expected: true,
 		},
 		{
-			name:     "1 Kilogram equals to 1000 gram",
-			d1Val:    1, d1Unit: kg,
-			d2Val:    1000, d2Unit: g,
+			name:  "1 Kilogram equals to 1000 gram",
+			d1Val: 1, d1Unit: kilogram,
+			d2Val: 1000, d2Unit: gram,
 			expected: true,
 		},
 	}
@@ -85,20 +86,18 @@ func TestCompareDistance(t *testing.T) {
 	}
 }
 
-
-
 func TestCreateNewMeasurementWithValidParameters(t *testing.T) {
 	tests := []struct {
 		name  string
 		value float64
-		unit  unit
+		unit  Unit
 	}{
-		{"Valid Meter Unit", 1000, m},
-		{"Valid Kilometer Unit", 2, km},
-		{"Valid Centimeter Unit", 100, cm},
-		{"Valid Kilogram Unit", 5, kg},
-		{"Valid Gram Unit", 500, g},
-		{"Valid Milligram Unit", 50000, mg},
+		{"Valid Meter Unit", 1000, meter},
+		{"Valid Kilometer Unit", 2, kilogram},
+		{"Valid Centimeter Unit", 100, centimeter},
+		{"Valid Kilogram Unit", 5, kilogram},
+		{"Valid Gram Unit", 500, gram},
+		{"Valid Milligram Unit", 50000, milligram},
 	}
 
 	for _, tt := range tests {
@@ -112,35 +111,21 @@ func TestCreateNewMeasurementWithValidParameters(t *testing.T) {
 }
 
 func TestCannotCreateDistanceWithNegativeValue(t *testing.T) {
-	_, err := NewMeasurement(-1, m)
+	_, err := NewMeasurement(-1, meter)
 	if err == nil {
 		t.Errorf("Expected error for negative value, got none")
 	}
 }
 
-func TestCannotCreateDistanceWithInvalidUnit(t *testing.T) {
-	_, err := NewMeasurement(1, "kmm")
-	if err == nil {
-		t.Errorf("Expected error for invalid unit, got none")
-	}
-}
-
-func TestCreateDistanceWithValidUnitCm(t *testing.T) {
-	_, err := NewMeasurement(1, "cm")
-	if err != nil {
-		t.Errorf("Expected error for invalid unit, got none")
-	}
-}
-
 func TestAddTwoDistanceInMeter(t *testing.T) {
-	d1, _ := NewMeasurement(5, m)
-	d2, _ := NewMeasurement(1, km)
-	add := d1.Add(d2)
+	d1, _ := NewMeasurement(5, meter)
+	d2, _ := NewMeasurement(1, kilometer)
+	add, _ := d1.Add(d2)
 
 	if add.conversed != 1005 {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
-	if add.unit != m {
+	if add.unit != meter {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
 
@@ -148,43 +133,35 @@ func TestAddTwoDistanceInMeter(t *testing.T) {
 
 func TestAddTwoDistanceInKilometer(t *testing.T) {
 
-	val1,_ := NewMeasurement(5,km)
+	val1, _ := NewMeasurement(5, kilometer)
 	d1 := distance{*val1}
 
-	val2,_ := NewMeasurement(1000,m)
+	val2, _ := NewMeasurement(1000, meter)
 	d2 := distance{*val2}
-	add:= d1.Add(&d2.measurement)
+	add, _ := d1.Add(&d2.measurement)
 
 	if add.value != 6 {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
-	if add.unit != km {
+	if add.unit != kilometer {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
 
 }
 
 func TestAddTwoDistanceInCentimeter(t *testing.T) {
-	val1,_ := NewMeasurement(5,cm)
+	val1, _ := NewMeasurement(5, centimeter)
 	d1 := distance{*val1}
 
-	val2,_ := NewMeasurement(1,m)
+	val2, _ := NewMeasurement(1, meter)
 	d2 := distance{*val2}
-	add := d1.measurement.Add(&d2.measurement)
+	add, _ := d1.measurement.Add(&d2.measurement)
 
 	if add.value != 105 {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
-	if add.unit != cm {
+	if add.unit != centimeter {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
 
 }
-
-func TestCannotCreateWeightWithInvalidUnit(t *testing.T) {
-	_, err := NewMeasurement(1, "kgg")
-	if err == nil {
-		t.Errorf("Expected error for invalid unit, got none")
-	}
-}
-
