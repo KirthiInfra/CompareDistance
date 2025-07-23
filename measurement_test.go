@@ -257,3 +257,13 @@ func Test100CelsiusEqualsTo100Celsius(t *testing.T) {
 		t.Errorf("100 celsius should be equal to 100 celsius")
 	}
 }
+
+func TestAdd100CelsiusWith100Celsius(t *testing.T) {
+	hundredcelsius1, _ := NewTemperatureUnit(100, celsius)
+	hundredcelsius2, _ := NewTemperatureUnit(100, celsius)
+
+	err := hundredcelsius1.Add(hundredcelsius2)
+	if err == nil {
+		t.Errorf("Temperatures cannot be added")
+	}
+}

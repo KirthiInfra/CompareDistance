@@ -105,3 +105,7 @@ func (d1 *Distance) Add(d2 *Distance) *Distance {
 func (d1 *Weight) Add(d2 *Weight) *Weight {
 	return &Weight{*(d1.measurement.Add(&d2.measurement))}
 }
+
+func (d1 *Temperature) Add(d2 *Temperature) error {
+	return errors.New("temperatures cannot be added")
+}
