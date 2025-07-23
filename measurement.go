@@ -1,65 +1,63 @@
-package Measurement
+package measurement
 
 import (
 	"errors"
+	
 )
 
 type Unit struct {
 	name                 string
 	baseConversionFactor float64
-	unitType             string
 }
 
 var (
-	meter      = Unit{name: "m", baseConversionFactor: 1, unitType: "distance"}
-	kilometer  = Unit{name: "km", baseConversionFactor: 1000, unitType: "distance"}
-	centimeter = Unit{name: "cm", baseConversionFactor: 0.01, unitType: "distance"}
-
-	gram      = Unit{name: "g", baseConversionFactor: 1, unitType: "weight"}
-	kilogram  = Unit{name: "kg", baseConversionFactor: 1000, unitType: "weight"}
-	milligram = Unit{name: "mg", baseConversionFactor: 0.001, unitType: "weight"}
+	meter      = Unit{name: "meter", baseConversionFactor: 1}
+	kilometer  = Unit{name: "kilometer", baseConversionFactor: 1000}
+	centimeter = Unit{name: "centimeter", baseConversionFactor: 0.01}
 )
 
 type measurement struct {
-	value     float64
-	unit      Unit
-	conversed float64
+	value float64
+	unit  Unit
 }
 
-type distance struct {
+type Distance struct {
 	measurement
 }
 
-type weight struct {
-	measurement
-}
 
-func (d *measurement) IsEqual(d1 *measurement) bool {
-	return d.conversed == d1.conversed
-}
 
-func NewMeasurement(value float64, unit Unit) (*measurement, error) {
-	if value <= 0 {
-		return nil, errors.New("cannot create struct with zero or negative value")
+func NewDistanceUnit(value float64, unit Unit) (*Distance, error) { 
+	if value < 0 {
+		return nil, errors.New("distance cannot be negative")
 	}
-
-	return &measurement{
-		value:     value,
-		unit:      unit,
-		conversed: value * unit.baseConversionFactor,
-	}, nil
+	if unit == meter || unit == kilometer || unit == centimeter {
+		return &Distance{measurement{value: value, unit: unit}}, nil
+	}
+	return nil, errors.New("invalid unit")
 }
 
-func (m *measurement) Add(m1 *measurement) (*measurement, error) {
-	if m.unit.unitType != m1.unit.unitType {
-		return nil, errors.New("cannot add different unit types (e.g. weight and distance)")
-	}
+func (d1 *Distance) IsEqual(d2 *Distance) bool { 
+	return d1.measurement.IsEqual(&d2.measurement)
+}
 
-	result := m.conversed + m1.conversed
-	baseFactor := m.unit.baseConversionFactor
-	return &measurement{
-		value:     result / baseFactor,
-		unit:      m.unit,
-		conversed: result,
-	}, nil
+func (d1 *measurement) IsEqual(d2 *measurement) bool {
+	return d1.InBase().value == d2.InBase().value
+}
+
+func (d *measurement) InBase() *measurement { 
+	return &measurement{value: d.value * d.unit.baseConversionFactor, unit: d.unit}
+}
+
+func (d1 *measurement) Add(d2 *measurement) *measurement {
+
+	baseResult := d1.InBase().value + d2.InBase().value
+
+	resultInSelfUnit := baseResult / d1.unit.baseConversionFactor
+
+	return &measurement{value: resultInSelfUnit, unit: d1.unit} 
+}
+
+func (d1 *Distance) Add(d2 *Distance) *Distance {
+	return &Distance{*(d1.measurement.Add(&d2.measurement))}
 }
