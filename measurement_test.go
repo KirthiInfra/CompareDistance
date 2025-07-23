@@ -76,7 +76,7 @@ func TestCheckEqualDistances(t *testing.T) {
 
 			got := distance1.IsEqual(distance2)
 			if got != tt.expected {
-				t.Errorf(tt.name)
+				t.Errorf("%v", tt.name)
 			}
 		})
 	}
@@ -138,4 +138,9 @@ func TestAdd5CentimeterAnd1Meter(t *testing.T) {
 
 }
 
-
+func TestCannotCreateWeightWithNegativeValue(t *testing.T) {
+	_, err := NewWeightUnit(-1, kilogram)
+	if err == nil {
+		t.Errorf("Expected error for negative value, got none")
+	}
+}
