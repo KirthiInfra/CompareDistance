@@ -36,7 +36,7 @@ type Weight struct {
 	measurement
 }
 
-type temperature struct {
+type Temperature struct {
 	measurement
 }
 
@@ -62,9 +62,9 @@ func NewWeightUnit(value float64, unit Unit) (*Weight, error) { //creating new D
 	return nil, errors.New("invalid unit")
 }
 
-func NewTemperatureUnit(value float64, unit Unit) (*temperature, error) { //creating new Distance struct
+func NewTemperatureUnit(value float64, unit Unit) (*Temperature, error) { 
 	if unit == celsius {
-		return &temperature{measurement{value: value, unit: unit}}, nil
+		return &Temperature{measurement{value: value, unit: unit}}, nil
 	}
 	return nil, errors.New("invalid unit")
 }
@@ -75,6 +75,10 @@ func (d1 *Distance) IsEqual(d2 *Distance) bool {
 
 func (w1 *Weight) IsEqual(w2 *Weight) bool { 
 	return w1.measurement.IsEqual(&w2.measurement)
+}
+
+func (t1 *Temperature) IsEqual(t2 *Temperature) bool { 
+	return t1.measurement.IsEqual(&t2.measurement)
 }
 
 func (m1 *measurement) IsEqual(m2 *measurement) bool {

@@ -247,3 +247,13 @@ func TestCreateTemperatureWithUnitCelsius(t *testing.T) {
 		t.Errorf("cannot create the temperature with celsius unit")
 	}
 }
+
+func Test100CelsiusEqualsTo100Celsius(t *testing.T) {
+	hundredcelsius1, _ := NewTemperatureUnit(100, celsius)
+	hundredcelsius2, _ := NewTemperatureUnit(100, celsius)
+
+	got := hundredcelsius1.IsEqual(hundredcelsius2)
+	if got != true {
+		t.Errorf("100 celsius should be equal to 100 celsius")
+	}
+}
