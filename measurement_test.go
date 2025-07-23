@@ -240,3 +240,10 @@ func TestAdd500GramsAnd1Kilogram(t *testing.T) {
 		t.Errorf("expected unit: centimeter but the actual unit: %v", add.unit)
 	}
 }
+
+func TestCreateTemperatureWithUnitCelsius(t *testing.T) {
+	_, err := NewTemperatureUnit(100, celsius)
+	if err != nil {
+		t.Errorf("cannot create the temperature with celsius unit")
+	}
+}
