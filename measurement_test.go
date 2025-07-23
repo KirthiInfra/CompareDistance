@@ -196,3 +196,47 @@ func TestCheckEqualWeights(t *testing.T) {
 		})
 	}
 }
+
+func TestAdd1000GramsAnd1000Grams(t *testing.T) {
+	weight1, _ := NewWeightUnit(1000, gram)
+	
+
+	weight2, _ := NewWeightUnit(1000, gram)
+	
+	add := weight1.Add(weight2)
+
+	if add.value != 2000 {
+		t.Errorf("expected value: 2000 but the actual value: %v", add.value)
+	}
+	if add.unit != gram {
+		t.Errorf("expected unit: centimeter but the actual unit: %v", add.unit)
+	}
+}
+
+func TestAdd1KilogramAnd300Grams(t *testing.T) {
+	weight1, _ := NewWeightUnit(1, kilogram)
+	weight2, _ := NewWeightUnit(300, gram)
+	
+	add := weight1.Add(weight2)
+
+	if add.value != 1.3 {
+		t.Errorf("expected value: 2000 but the actual value: %v", add.value)
+	}
+	if add.unit != kilogram {
+		t.Errorf("expected unit: centimeter but the actual unit: %v", add.unit)
+	}
+}
+
+func TestAdd500GramsAnd1Kilogram(t *testing.T) {
+	weight1, _ := NewWeightUnit(500, gram)
+	weight2, _ := NewWeightUnit(1, kilogram)
+	
+	add := weight1.Add(weight2)
+
+	if add.value != 1500 {
+		t.Errorf("expected value: 2000 but the actual value: %v", add.value)
+	}
+	if add.unit != gram {
+		t.Errorf("expected unit: centimeter but the actual unit: %v", add.unit)
+	}
+}
