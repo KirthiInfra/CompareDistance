@@ -20,7 +20,8 @@ var (
 	kilogram   = Unit{name: "kilogram", baseConversionFactor: 1000}
 	milligram  = Unit{name: "milligram", baseConversionFactor: 0.001}
 	//temperature unit
-	celsius    = Unit{name: "celsius", baseConversionFactor: 1}
+	celsius    = Unit{name: "celsius", baseConversionFactor: 1} 
+	fahrenheit = Unit{name: "fahrenheit", baseConversionFactor: 1.8}
 )
 
 type measurement struct {
@@ -38,6 +39,15 @@ type Weight struct {
 
 type Temperature struct {
 	measurement
+	baseAdditionFactor float64
+}
+
+func baseAdditionFactorForTemperature(unit Unit) float64 {
+    m := map[Unit]float64{
+        celsius: 0,
+        fahrenheit: 32,
+    }
+    return m[unit]
 }
 
 
@@ -63,8 +73,9 @@ func NewWeightUnit(value float64, unit Unit) (*Weight, error) { //creating new D
 }
 
 func NewTemperatureUnit(value float64, unit Unit) (*Temperature, error) { 
-	if unit == celsius {
-		return &Temperature{measurement{value: value, unit: unit}}, nil
+	if unit == celsius || unit == fahrenheit {
+		return &Temperature{measurement: measurement{value: value, unit: unit}, 
+		baseAdditionFactor: baseAdditionFactorForTemperature(unit)}, nil
 	}
 	return nil, errors.New("invalid unit")
 }

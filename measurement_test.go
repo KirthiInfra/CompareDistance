@@ -267,3 +267,10 @@ func TestAdd100CelsiusWith100Celsius(t *testing.T) {
 		t.Errorf("Temperatures cannot be added")
 	}
 }
+
+func TestCreateTemperatureWithUnitFahrenheit(t *testing.T) {
+	_, err := NewTemperatureUnit(100, fahrenheit)
+	if err != nil {
+		t.Errorf("cannot create the temperature with fahrenheit unit")
+	}
+}
