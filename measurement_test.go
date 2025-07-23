@@ -144,3 +144,55 @@ func TestCannotCreateWeightWithNegativeValue(t *testing.T) {
 		t.Errorf("Expected error for negative value, got none")
 	}
 }
+
+func TestCheckEqualWeights(t *testing.T) {
+	tests := []struct {
+		name     string
+		weight1Val    float64
+		weight1Unit   Unit
+		weight2Val    float64
+		weight2Unit   Unit
+		expected bool
+	}{
+		{
+			name:  "1000 grams should be to 1 kilogram",
+			weight1Val: 1000, weight1Unit: gram,
+			weight2Val: 1, weight2Unit: kilogram,
+			expected: true,
+		},
+		{
+			name:  "1 kilogram should not be equal to 2 kilograms",
+			weight1Val: 1, weight1Unit: kilogram,
+			weight2Val: 2, weight2Unit: kilogram,
+			expected: false,
+		},
+		{
+			name:  "2000000 milligrams should be equal to 2 kilograms",
+			weight1Val: 2000000, weight1Unit: milligram,
+			weight2Val: 2, weight2Unit: kilogram,
+			expected: true,
+		},
+		{
+			name:  "2 kilograms should be equal to 2000000 milligrams",
+			weight1Val: 2, weight1Unit: kilogram,
+			weight2Val: 2000000, weight2Unit: milligram,
+			expected: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			weight1, err1 := NewWeightUnit(tt.weight1Val, tt.weight1Unit)
+			weight2, err2 := NewWeightUnit(tt.weight2Val, tt.weight2Unit)
+
+			if err1 != nil || err2 != nil {
+				t.Fatalf("error creating measurements: %v, %v", err1, err2)
+			}
+
+			got := weight1.IsEqual(weight2)
+			if got != tt.expected {
+				t.Errorf("%v", tt.name)
+			}
+		})
+	}
+}

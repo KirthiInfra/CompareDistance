@@ -60,12 +60,12 @@ func (d1 *Distance) IsEqual(d2 *Distance) bool {
 	return d1.measurement.IsEqual(&d2.measurement)
 }
 
-func (d1 *Weight) IsEqual(d2 *Weight) bool { 
-	return d1.measurement.IsEqual(&d2.measurement)
+func (w1 *Weight) IsEqual(w2 *Weight) bool { 
+	return w1.measurement.IsEqual(&w2.measurement)
 }
 
-func (d1 *measurement) IsEqual(d2 *measurement) bool {
-	return d1.InBase().value == d2.InBase().value
+func (m1 *measurement) IsEqual(m2 *measurement) bool {
+	return m1.InBase().value == m2.InBase().value
 }
 
 func (d *measurement) InBase() *measurement { 
