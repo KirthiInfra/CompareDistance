@@ -7,17 +7,16 @@ import (
 type Unit struct {
 	name                 string
 	baseConversionFactor float64
-	unitType             string
 }
 
 var (
-	meter      = Unit{name: "m", baseConversionFactor: 1, unitType: "distance"}
-	kilometer  = Unit{name: "km", baseConversionFactor: 1000, unitType: "distance"}
-	centimeter = Unit{name: "cm", baseConversionFactor: 0.01, unitType: "distance"}
+	meter      = Unit{name: "m", baseConversionFactor: 1}
+	kilometer  = Unit{name: "km", baseConversionFactor: 1000}
+	centimeter = Unit{name: "cm", baseConversionFactor: 0.01}
 
-	gram      = Unit{name: "g", baseConversionFactor: 1, unitType: "weight"}
-	kilogram  = Unit{name: "kg", baseConversionFactor: 1000, unitType: "weight"}
-	milligram = Unit{name: "mg", baseConversionFactor: 0.001, unitType: "weight"}
+	gram      = Unit{name: "g", baseConversionFactor: 1}
+	kilogram  = Unit{name: "kg", baseConversionFactor: 1000}
+	milligram = Unit{name: "mg", baseConversionFactor: 0.001}
 )
 
 type measurement struct {
@@ -42,7 +41,6 @@ func (d *distance) IsEqual(d1 *distance) bool {
 	return d.measurement.conversed == d1.measurement.conversed
 }
 
-
 func newMeasurement(value float64, unit Unit) (*measurement, error) {
 	if value <= 0 {
 		return nil, errors.New("cannot create struct with zero or negative value")
@@ -56,11 +54,11 @@ func newMeasurement(value float64, unit Unit) (*measurement, error) {
 }
 
 func NewDistance(i float64, unit Unit) (*distance, error) {
-	return &distance{measurement{value:i, unit:unit, conversed:i*unit.baseConversionFactor}}, nil
+	return &distance{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
 }
 
 func (m *measurement) Add(m1 *measurement) (*measurement, error) {
-	if m.unit.unitType != m1.unit.unitType {
+	if m.unit != m1.unit {
 		return nil, errors.New("cannot add different unit types (e.g. weight and distance)")
 	}
 
