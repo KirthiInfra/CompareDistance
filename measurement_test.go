@@ -172,3 +172,21 @@ func TestNewDistance(t *testing.T) {
 		t.Errorf("Could not create distance with 10 meter units")
 	}
 }
+
+func Test100MeterEquals100Meter(t *testing.T) {
+	hundredMeter1,_:=NewDistance(100,meter)
+	hundredMeter2,_:= NewDistance(100,meter)
+	result := hundredMeter1.IsEqual(hundredMeter2)
+	if result != true {
+		t.Errorf("100 meter should be equal to 100 meter")
+	}			
+}
+
+func Test1KilometerEquals1000Meter(t *testing.T) {
+	oneKilometer,_:=NewDistance(1,kilometer)
+	thousandMeter,_:= NewDistance(1000,meter)
+	result := oneKilometer.IsEqual(thousandMeter)
+	if result != true {
+		t.Errorf("1 kilometer should be equal to 1000 meter")
+	}			
+}

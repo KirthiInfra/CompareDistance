@@ -38,6 +38,11 @@ func (d *measurement) IsEqual(d1 *measurement) bool {
 	return d.conversed == d1.conversed
 }
 
+func (d *distance) IsEqual(d1 *distance) bool {
+	return d.measurement.conversed == d1.measurement.conversed
+}
+
+
 func newMeasurement(value float64, unit Unit) (*measurement, error) {
 	if value <= 0 {
 		return nil, errors.New("cannot create struct with zero or negative value")
