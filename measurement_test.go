@@ -120,12 +120,12 @@ func TestCannotCreateDistanceWithNegativeValue(t *testing.T) {
 func TestAddTwoDistanceInMeter(t *testing.T) {
 	d1, _ := newMeasurement(5, meter)
 	d2, _ := newMeasurement(1, kilometer)
-	add, _ := d1.Add(d2)
+	result := d1.Add(d2)
 
-	if add.conversed != 1005 {
+	if result.conversed != 1005 {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
-	if add.unit != meter {
+	if result.unit != meter {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
 
@@ -138,12 +138,12 @@ func TestAddTwoDistanceInKilometer(t *testing.T) {
 
 	val2, _ := newMeasurement(1000, meter)
 	d2 := distance{*val2}
-	add, _ := d1.Add(&d2.measurement)
+	result := d1.Add(&d2)
 
-	if add.value != 6 {
+	if result.value != 6 {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
-	if add.unit != kilometer {
+	if result.unit != kilometer {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
 
@@ -155,12 +155,12 @@ func TestAddTwoDistanceInCentimeter(t *testing.T) {
 
 	val2, _ := newMeasurement(1, meter)
 	d2 := distance{*val2}
-	add, _ := d1.measurement.Add(&d2.measurement)
+	result:= d1.measurement.Add(&d2.measurement)
 
-	if add.value != 105 {
+	if result.value != 105 {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
-	if add.unit != centimeter {
+	if result.unit != centimeter {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
 
@@ -174,19 +174,33 @@ func TestNewDistance(t *testing.T) {
 }
 
 func Test100MeterEquals100Meter(t *testing.T) {
-	hundredMeter1,_:=NewDistance(100,meter)
-	hundredMeter2,_:= NewDistance(100,meter)
+	hundredMeter1, _ := NewDistance(100, meter)
+	hundredMeter2, _ := NewDistance(100, meter)
 	result := hundredMeter1.IsEqual(hundredMeter2)
 	if result != true {
 		t.Errorf("100 meter should be equal to 100 meter")
-	}			
+	}
 }
 
 func Test1KilometerEquals1000Meter(t *testing.T) {
-	oneKilometer,_:=NewDistance(1,kilometer)
-	thousandMeter,_:= NewDistance(1000,meter)
+	oneKilometer, _:=NewDistance(1, kilometer)
+	thousandMeter, _:=NewDistance(1000, meter)
 	result := oneKilometer.IsEqual(thousandMeter)
 	if result != true {
 		t.Errorf("1 kilometer should be equal to 1000 meter")
-	}			
+	}
+}
+
+func TestAdd100CentimeterAnd100Centimeter(t *testing.T){
+	hundredCentimeter1, _ := NewDistance(100, centimeter)
+	hundredCentimeter2, _ := NewDistance(100, centimeter)
+	result := hundredCentimeter1.Add(hundredCentimeter2)
+
+	if result.conversed != 2 {
+		t.Errorf("cannot expected error for invalid unit, got none")
+	}
+	if result.unit != centimeter {
+		t.Errorf("cannot expected error for invalid unit, got none")
+	}
+
 }

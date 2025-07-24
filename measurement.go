@@ -57,16 +57,17 @@ func NewDistance(i float64, unit Unit) (*distance, error) {
 	return &distance{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
 }
 
-func (m *measurement) Add(m1 *measurement) (*measurement, error) {
-	if m.unit != m1.unit {
-		return nil, errors.New("cannot add different unit types (e.g. weight and distance)")
-	}
-
+func (m *measurement) Add(m1 *measurement) (*measurement) {
+	
 	result := m.conversed + m1.conversed
 	baseFactor := m.unit.baseConversionFactor
 	return &measurement{
 		value:     result / baseFactor,
 		unit:      m.unit,
 		conversed: result,
-	}, nil
+	}
+}
+
+func (d1 *distance) Add(d2 *distance) (*distance){
+	return &distance{*d1.measurement.Add(&d2.measurement)}
 }
