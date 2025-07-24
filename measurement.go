@@ -50,6 +50,10 @@ func newMeasurement(value float64, unit Unit) (*measurement, error) {
 	}, nil
 }
 
+func NewDistance(i float64, unit Unit) (*distance, error) {
+	return &distance{measurement{value:i, unit:unit, conversed:i*unit.baseConversionFactor}}, nil
+}
+
 func (m *measurement) Add(m1 *measurement) (*measurement, error) {
 	if m.unit.unitType != m1.unit.unitType {
 		return nil, errors.New("cannot add different unit types (e.g. weight and distance)")

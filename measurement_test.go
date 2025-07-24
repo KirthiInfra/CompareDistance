@@ -165,3 +165,10 @@ func TestAddTwoDistanceInCentimeter(t *testing.T) {
 	}
 
 }
+
+func TestNewDistance(t *testing.T) {
+	_, err := NewDistance(10, meter)
+	if err != nil {
+		t.Errorf("Could not create distance with 10 meter units")
+	}
+}
