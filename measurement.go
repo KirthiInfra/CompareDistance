@@ -79,3 +79,7 @@ func (m *measurement) Add(m1 *measurement) (*measurement) {
 func (d1 *distance) Add(d2 *distance) (*distance){
 	return &distance{*d1.measurement.Add(&d2.measurement)}
 }
+
+func (w1 *weight) Add(w2 *weight) (*weight){
+	return &weight{*w1.measurement.Add(&w2.measurement)}
+}

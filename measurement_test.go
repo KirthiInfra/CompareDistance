@@ -228,3 +228,16 @@ func Test1000GramEquals1Kilogram(t *testing.T) {
 		t.Errorf("1000 grams should be equal to 1 kilogram")
 	}
 }
+
+func TestAdd100GramAnd1Kilogram(t *testing.T){
+	hundredGram, _ := NewWeight(100, gram)
+	oneKilogram, _ := NewWeight(1, kilogram)
+	result := hundredGram.Add(oneKilogram)
+
+	if result.conversed != 1100 {
+		t.Errorf("expected value in gram: 1100, but actual value in gram: %f", result.conversed)
+	}
+	if result.unit != gram{
+		t.Errorf("expected unit: gram, but actual unit: %v", result.unit)
+	}
+}
