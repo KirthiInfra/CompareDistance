@@ -57,6 +57,10 @@ func NewDistance(i float64, unit Unit) (*distance, error) {
 	return &distance{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
 }
 
+func NewWeight(i float64, unit Unit) (*weight, error) {
+	return &weight{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
+}
+
 func (m *measurement) Add(m1 *measurement) (*measurement) {
 	
 	result := m.conversed + m1.conversed

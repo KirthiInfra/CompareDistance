@@ -202,5 +202,11 @@ func TestAdd100CentimeterAnd100Centimeter(t *testing.T){
 	if result.unit != centimeter {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
+}
 
+func TestNewWeight(t *testing.T) {
+	_, err := NewWeight(100, gram)
+	if err != nil {
+		t.Errorf("Could not create weight with 100 gram units")
+	}
 }
