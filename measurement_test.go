@@ -210,3 +210,21 @@ func TestNewWeight(t *testing.T) {
 		t.Errorf("Could not create weight with 100 gram units")
 	}
 }
+
+func Test1KilogramEquals1Kilogram(t *testing.T) {
+	oneKilogram1, _ := NewWeight(1, kilogram)
+	oneKilogram2, _ := NewWeight(1, kilogram)
+	result := oneKilogram1.IsEqual(oneKilogram2)
+	if result != true {
+		t.Errorf("1 kilogram should be equal to 1 kilogram")
+	}
+}
+
+func Test1000GramEquals1Kilogram(t *testing.T) {
+	thousandGram, _:=NewWeight(1000, gram)
+	oneKilogram, _:=NewWeight(1, kilogram)
+	result := thousandGram.IsEqual(oneKilogram)
+	if result != true {
+		t.Errorf("1000 grams should be equal to 1 kilogram")
+	}
+}
