@@ -44,11 +44,11 @@ func (d *measurement) IsEqual(d1 *measurement) bool {
 }
 
 func (d *distance) IsEqual(d1 *distance) bool {
-	return d.measurement.conversed == d1.measurement.conversed
+	return d.measurement.IsEqual(&d1.measurement)
 }
 
 func (w1 *weight) IsEqual(w2 *weight) bool {
-	return w1.measurement.conversed == w2.measurement.conversed
+	return w1.measurement.IsEqual(&w2.measurement)
 }
 
 func (t1 *temperature)IsEqual(t2 *temperature) bool{
