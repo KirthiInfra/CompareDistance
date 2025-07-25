@@ -2,6 +2,7 @@ package Measurement
 
 import (
 	"errors"
+	"math"
 )
 
 type Unit struct {
@@ -19,7 +20,7 @@ var (
 	milligram = Unit{name: "mg", baseConversionFactor: 0.001}
 
 	celsius = Unit{ name:"celsius",baseConversionFactor: 1}
-
+	fahrenheit = Unit{ name:"fahrenheit",baseConversionFactor: math.Ceil(5.0/9.0)}
 )
 
 type measurement struct {

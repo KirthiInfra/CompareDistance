@@ -268,3 +268,10 @@ func TestAdd1CelsiusAnd1Celsius(t *testing.T){
 	}
 	
 }
+
+func TestNewTemperatureWithFahrenheit(t *testing.T) {
+	_, err := NewTemperature(10, fahrenheit)
+	if err != nil {
+		t.Errorf("Could not create temperature with 10 degree fahrenheit")
+	}
+}
