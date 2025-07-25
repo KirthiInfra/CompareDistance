@@ -245,7 +245,7 @@ func TestAdd100GramAnd1Kilogram(t *testing.T){
 func TestNewTemperature(t *testing.T) {
 	_, err := NewTemperature(10, celsius)
 	if err != nil {
-		t.Errorf("Could not create distance with 10 meter units")
+		t.Errorf("Could not create temperature with 10 degree celsius")
 	}
 }
 
@@ -254,7 +254,7 @@ func Test0CelsiusEquals0Celsius(t *testing.T) {
 	zeroCelsius2, _ := NewTemperature(0, celsius)
 	result := zeroCelsius1.IsEqual(zeroCelsius2)
 	if result != true {
-		t.Errorf("100 meter should be equal to 100 meter")
+		t.Errorf("0 degree celsius should be equal to 0 degree celsius")
 	}
 }
 
