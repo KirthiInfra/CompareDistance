@@ -318,3 +318,33 @@ func TestNewTemperatureWithKelvin(t *testing.T) {
 		t.Errorf("Could not create temperature with 10 kelvin")
 	}
 }
+
+func Test0KelvinEquals0Kelvin(t *testing.T) {
+	zeroKelvin1, _ := NewTemperature(0, kelvin)
+	zeroKelvin2, _ := NewTemperature(0, kelvin)
+	result := zeroKelvin1.IsEqual(zeroKelvin2)
+	if result != true {
+		t.Errorf("0 Kelvin should be equal to 0 Kelvin")
+	}
+}
+
+func Test0CelsiusEquals273Kelvin(t *testing.T) {
+	zeroCelsius, _ := NewTemperature(0, celsius)
+	twoSeventyThreeKelvin, _ := NewTemperature(273.15, kelvin)
+	result := zeroCelsius.IsEqual(twoSeventyThreeKelvin)
+	if result != true {
+		t.Errorf("0 degree celsius should be equal to 273.15 Kelvin")
+	}
+}
+
+func Test273KelvinEquals32Fahrenheit(t *testing.T) {
+	twoSeventyThreeKelvin, _ := NewTemperature(273.15, kelvin)
+	thirtyTwoFahrenheit, _ := NewTemperature(32, fahrenheit)
+	result := twoSeventyThreeKelvin.IsEqual(thirtyTwoFahrenheit)
+	if result != true {
+		t.Errorf("273.15 Kelvin should be equal to 32 degree fahrenheit")
+	}
+}
+
+
+
