@@ -257,3 +257,14 @@ func Test0CelciusEquals0Celcius(t *testing.T) {
 		t.Errorf("100 meter should be equal to 100 meter")
 	}
 }
+
+func TestAdd1CelciusAnd1Celcius(t *testing.T){
+	oneCelcius1, _ := NewTemperature(1, celcius)
+	oneCelcius2, _ := NewTemperature(2, celcius)
+	result := oneCelcius1.Add(oneCelcius2)
+
+	if result != nil {
+		t.Errorf("Temperature cannot be added")
+	}
+	
+}
