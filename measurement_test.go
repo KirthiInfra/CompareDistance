@@ -248,3 +248,12 @@ func TestNewTemperature(t *testing.T) {
 		t.Errorf("Could not create distance with 10 meter units")
 	}
 }
+
+func Test0CelciusEquals0Celcius(t *testing.T) {
+	zeroCelcius1, _ := NewTemperature(0, celcius)
+	zeroCelcius2, _ := NewTemperature(0, celcius)
+	result := zeroCelcius1.IsEqual(zeroCelcius2)
+	if result != true {
+		t.Errorf("100 meter should be equal to 100 meter")
+	}
+}
