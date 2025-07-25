@@ -8,6 +8,7 @@ import (
 type Unit struct {
 	name                 string
 	baseConversionFactor float64
+	baseAdditionFactor float64
 }
 
 var (
@@ -20,7 +21,7 @@ var (
 	milligram = Unit{name: "mg", baseConversionFactor: 0.001}
 
 	celsius = Unit{ name:"celsius",baseConversionFactor: 1}
-	fahrenheit = Unit{ name:"fahrenheit",baseConversionFactor: math.Ceil(5.0/9.0)}
+	fahrenheit = Unit{ name:"fahrenheit",baseConversionFactor: math.Ceil(5.0/9.0), baseAdditionFactor: -32}
 )
 
 type measurement struct {
@@ -78,7 +79,7 @@ func NewWeight(i float64, unit Unit) (*weight, error) {
 }
 
 func NewTemperature(i float64, unit Unit) (*temperature, error) {
-	return &temperature{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
+	return &temperature{measurement{value: i, unit: unit, conversed: (i + unit.baseAdditionFactor) * unit.baseConversionFactor}}, nil
 }
 
 func (m *measurement) Add(m1 *measurement) (*measurement) {

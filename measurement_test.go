@@ -275,3 +275,21 @@ func TestNewTemperatureWithFahrenheit(t *testing.T) {
 		t.Errorf("Could not create temperature with 10 degree fahrenheit")
 	}
 }
+
+func Test32FahrenheitEquals32Fahrenheit(t *testing.T) {
+	thirtyTwoFahrenheit1, _ := NewTemperature(32, fahrenheit)
+	thirtyTwoFahrenheit2, _ := NewTemperature(32, fahrenheit)
+	result := thirtyTwoFahrenheit1.IsEqual(thirtyTwoFahrenheit2)
+	if result != true {
+		t.Errorf("32 degree fahrenheit should be equal to 32 degree fahrenheit")
+	}
+}
+
+func Test0CelsiusEquals32Fahrenheit(t *testing.T) {
+	zeroCelsius, _ := NewTemperature(0, celsius)
+	thirtyTwoFahrenheit, _ := NewTemperature(32, fahrenheit)
+	result := zeroCelsius.IsEqual(thirtyTwoFahrenheit)
+	if result != true {
+		t.Errorf("0 degree celsius should be equal to 32 degree fahrenheit")
+	}
+}
