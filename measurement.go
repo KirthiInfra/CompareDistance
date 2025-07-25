@@ -8,7 +8,7 @@ import (
 type Unit struct {
 	name                 string
 	baseConversionFactor float64
-	baseAdditionFactor float64
+	baseAdditionFactor   float64
 }
 
 var (
@@ -20,8 +20,9 @@ var (
 	kilogram  = Unit{name: "kg", baseConversionFactor: 1000}
 	milligram = Unit{name: "mg", baseConversionFactor: 0.001}
 
-	celsius = Unit{ name:"celsius",baseConversionFactor: 1}
-	fahrenheit = Unit{ name:"fahrenheit",baseConversionFactor: math.Ceil((5.0/9.0)*100)/100, baseAdditionFactor: -32}
+	celsius    = Unit{name: "celsius", baseConversionFactor: 1}
+	fahrenheit = Unit{name: "fahrenheit", baseConversionFactor: math.Ceil((5.0/9.0)*100) / 100, baseAdditionFactor: -32}
+	kelvin     = Unit{name: "kelvin", baseConversionFactor: 1, baseAdditionFactor: -273.15}
 )
 
 type measurement struct {

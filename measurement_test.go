@@ -311,3 +311,10 @@ func Test212FahrenheitEqual100Celsius(t *testing.T) {
 		t.Errorf("212 degree fahrenheit should be equal to 100 degree celsius")
 	}
 }
+
+func TestNewTemperatureWithKelvin(t *testing.T) {
+	_, err := NewTemperature(10, kelvin)
+	if err != nil {
+		t.Errorf("Could not create temperature with 10 kelvin")
+	}
+}
