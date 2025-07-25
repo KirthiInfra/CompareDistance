@@ -155,7 +155,7 @@ func TestAddTwoDistanceInCentimeter(t *testing.T) {
 
 	val2, _ := newMeasurement(1, meter)
 	d2 := distance{*val2}
-	result:= d1.measurement.Add(&d2.measurement)
+	result := d1.measurement.Add(&d2.measurement)
 
 	if result.value != 105 {
 		t.Errorf("cannot expected error for invalid unit, got none")
@@ -183,15 +183,15 @@ func Test100MeterEquals100Meter(t *testing.T) {
 }
 
 func Test1KilometerEquals1000Meter(t *testing.T) {
-	oneKilometer, _:=NewDistance(1, kilometer)
-	thousandMeter, _:=NewDistance(1000, meter)
+	oneKilometer, _ := NewDistance(1, kilometer)
+	thousandMeter, _ := NewDistance(1000, meter)
 	result := oneKilometer.IsEqual(thousandMeter)
 	if result != true {
 		t.Errorf("1 kilometer should be equal to 1000 meter")
 	}
 }
 
-func TestAdd100CentimeterAnd100Centimeter(t *testing.T){
+func TestAdd100CentimeterAnd100Centimeter(t *testing.T) {
 	hundredCentimeter1, _ := NewDistance(100, centimeter)
 	hundredCentimeter2, _ := NewDistance(100, centimeter)
 	result := hundredCentimeter1.Add(hundredCentimeter2)
@@ -221,15 +221,15 @@ func Test1KilogramEquals1Kilogram(t *testing.T) {
 }
 
 func Test1000GramEquals1Kilogram(t *testing.T) {
-	thousandGram, _:=NewWeight(1000, gram)
-	oneKilogram, _:=NewWeight(1, kilogram)
+	thousandGram, _ := NewWeight(1000, gram)
+	oneKilogram, _ := NewWeight(1, kilogram)
 	result := thousandGram.IsEqual(oneKilogram)
 	if result != true {
 		t.Errorf("1000 grams should be equal to 1 kilogram")
 	}
 }
 
-func TestAdd100GramAnd1Kilogram(t *testing.T){
+func TestAdd100GramAnd1Kilogram(t *testing.T) {
 	hundredGram, _ := NewWeight(100, gram)
 	oneKilogram, _ := NewWeight(1, kilogram)
 	result := hundredGram.Add(oneKilogram)
@@ -237,7 +237,7 @@ func TestAdd100GramAnd1Kilogram(t *testing.T){
 	if result.conversed != 1100 {
 		t.Errorf("expected value in gram: 1100, but actual value in gram: %f", result.conversed)
 	}
-	if result.unit != gram{
+	if result.unit != gram {
 		t.Errorf("expected unit: gram, but actual unit: %v", result.unit)
 	}
 }
@@ -258,7 +258,7 @@ func Test0CelsiusEquals0Celsius(t *testing.T) {
 	}
 }
 
-func TestAdd1CelsiusAnd1Celsius(t *testing.T){
+func TestAdd1CelsiusAnd1Celsius(t *testing.T) {
 	oneCelsius1, _ := NewTemperature(1, celsius)
 	oneCelsius2, _ := NewTemperature(2, celsius)
 	result := oneCelsius1.Add(oneCelsius2)
@@ -266,7 +266,7 @@ func TestAdd1CelsiusAnd1Celsius(t *testing.T){
 	if result != nil {
 		t.Errorf("Temperature cannot be added")
 	}
-	
+
 }
 
 func TestNewTemperatureWithFahrenheit(t *testing.T) {
@@ -345,6 +345,3 @@ func Test273KelvinEquals32Fahrenheit(t *testing.T) {
 		t.Errorf("273.15 Kelvin should be equal to 32 degree fahrenheit")
 	}
 }
-
-
-

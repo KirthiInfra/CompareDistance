@@ -39,7 +39,7 @@ type weight struct {
 	measurement
 }
 
-type temperature struct{
+type temperature struct {
 	measurement
 }
 
@@ -55,7 +55,7 @@ func (w1 *weight) IsEqual(w2 *weight) bool {
 	return w1.measurement.IsEqual(&w2.measurement)
 }
 
-func (t1 *temperature)IsEqual(t2 *temperature) bool{
+func (t1 *temperature) IsEqual(t2 *temperature) bool {
 	return t1.measurement.IsEqual(&t2.measurement)
 }
 
@@ -83,8 +83,8 @@ func NewTemperature(i float64, unit Unit) (*temperature, error) {
 	return &temperature{measurement{value: i, unit: unit, conversed: math.Floor((i + unit.baseAdditionFactor) * unit.baseConversionFactor)}}, nil
 }
 
-func (m *measurement) Add(m1 *measurement) (*measurement) {
-	
+func (m *measurement) Add(m1 *measurement) *measurement {
+
 	result := m.conversed + m1.conversed
 	baseFactor := m.unit.baseConversionFactor
 	return &measurement{
@@ -94,14 +94,14 @@ func (m *measurement) Add(m1 *measurement) (*measurement) {
 	}
 }
 
-func (d1 *distance) Add(d2 *distance) (*distance){
+func (d1 *distance) Add(d2 *distance) *distance {
 	return &distance{*d1.measurement.Add(&d2.measurement)}
 }
 
-func (w1 *weight) Add(w2 *weight) (*weight){
+func (w1 *weight) Add(w2 *weight) *weight {
 	return &weight{*w1.measurement.Add(&w2.measurement)}
 }
 
-func (t1 *temperature) Add(t2 *temperature) (*temperature){
+func (t1 *temperature) Add(t2 *temperature) *temperature {
 	return nil
 }
