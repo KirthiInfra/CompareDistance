@@ -241,3 +241,10 @@ func TestAdd100GramAnd1Kilogram(t *testing.T){
 		t.Errorf("expected unit: gram, but actual unit: %v", result.unit)
 	}
 }
+
+func TestNewTemperature(t *testing.T) {
+	_, err := NewTemperature(10, celcius)
+	if err != nil {
+		t.Errorf("Could not create distance with 10 meter units")
+	}
+}

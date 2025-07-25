@@ -17,6 +17,8 @@ var (
 	gram      = Unit{name: "g", baseConversionFactor: 1}
 	kilogram  = Unit{name: "kg", baseConversionFactor: 1000}
 	milligram = Unit{name: "mg", baseConversionFactor: 0.001}
+
+	celcius = Unit{ name:"celcius",baseConversionFactor: 1}
 )
 
 type measurement struct {
@@ -30,6 +32,10 @@ type distance struct {
 }
 
 type weight struct {
+	measurement
+}
+
+type temperature struct{
 	measurement
 }
 
@@ -63,6 +69,10 @@ func NewDistance(i float64, unit Unit) (*distance, error) {
 
 func NewWeight(i float64, unit Unit) (*weight, error) {
 	return &weight{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
+}
+
+func NewTemperature(i float64, unit Unit) (*temperature, error) {
+	return &temperature{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
 }
 
 func (m *measurement) Add(m1 *measurement) (*measurement) {
