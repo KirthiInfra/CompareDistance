@@ -18,7 +18,8 @@ var (
 	kilogram  = Unit{name: "kg", baseConversionFactor: 1000}
 	milligram = Unit{name: "mg", baseConversionFactor: 0.001}
 
-	celcius = Unit{ name:"celcius",baseConversionFactor: 1}
+	celsius = Unit{ name:"celsius",baseConversionFactor: 1}
+
 )
 
 type measurement struct {
