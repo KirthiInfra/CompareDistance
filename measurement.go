@@ -68,6 +68,9 @@ func NewDistance(i float64, unit Unit) (*distance, error) {
 }
 
 func NewWeight(i float64, unit Unit) (*weight, error) {
+	if i<=0{
+		return nil,errors.New("Cannot create weight with negative value")
+	}
 	return &weight{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
 }
 
