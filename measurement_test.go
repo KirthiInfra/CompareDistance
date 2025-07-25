@@ -71,8 +71,8 @@ func TestCompareDistance(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d1, err1 := newMeasurement(tt.d1Val, tt.d1Unit)
-			d2, err2 := newMeasurement(tt.d2Val, tt.d2Unit)
+			d1, err1 := NewDistance(tt.d1Val, tt.d1Unit)
+			d2, err2 := NewDistance(tt.d2Val, tt.d2Unit)
 
 			if err1 != nil || err2 != nil {
 				t.Fatalf("error creating measurements: %v, %v", err1, err2)
@@ -102,7 +102,7 @@ func TestCreateNewMeasurementWithValidParameters(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := newMeasurement(tt.value, tt.unit)
+			_, err := NewDistance(tt.value, tt.unit)
 			if err != nil {
 				t.Errorf("Expected no error, got: %v", err)
 			}
@@ -111,16 +111,16 @@ func TestCreateNewMeasurementWithValidParameters(t *testing.T) {
 }
 
 func TestCannotCreateDistanceWithNegativeValue(t *testing.T) {
-	_, err := newMeasurement(-1, meter)
+	_, err := NewDistance(-1, meter)
 	if err == nil {
 		t.Errorf("Expected error for negative value, got none")
 	}
 }
 
 func TestAddTwoDistanceInMeter(t *testing.T) {
-	d1, _ := newMeasurement(5, meter)
-	d2, _ := newMeasurement(1, kilometer)
-	result := d1.Add(d2)
+	fiveMeter, _ := NewDistance(5, meter)
+	oneKilometer, _ := NewDistance(1, kilometer)
+	result := fiveMeter.Add(oneKilometer)
 
 	if result.conversed != 1005 {
 		t.Errorf("cannot expected error for invalid unit, got none")
@@ -133,12 +133,10 @@ func TestAddTwoDistanceInMeter(t *testing.T) {
 
 func TestAddTwoDistanceInKilometer(t *testing.T) {
 
-	val1, _ := newMeasurement(5, kilometer)
-	d1 := distance{*val1}
-
-	val2, _ := newMeasurement(1000, meter)
-	d2 := distance{*val2}
-	result := d1.Add(&d2)
+	d1, _ := NewDistance(5, kilometer)
+	d2, _ := NewDistance(1000, meter)
+	
+	result := d1.Add(d2)
 
 	if result.value != 6 {
 		t.Errorf("cannot expected error for invalid unit, got none")
@@ -150,11 +148,9 @@ func TestAddTwoDistanceInKilometer(t *testing.T) {
 }
 
 func TestAddTwoDistanceInCentimeter(t *testing.T) {
-	val1, _ := newMeasurement(5, centimeter)
-	d1 := distance{*val1}
-
-	val2, _ := newMeasurement(1, meter)
-	d2 := distance{*val2}
+	d1, _ := NewDistance(5, centimeter)
+	d2, _ := NewDistance(1, meter)
+	
 	result := d1.measurement.Add(&d2.measurement)
 
 	if result.value != 105 {

@@ -44,7 +44,7 @@ type temperature struct {
 }
 
 func (d *measurement) IsEqual(d1 *measurement) bool {
-	return d.inBase().value == d1.inBase().value
+	return d.conversed == d1.conversed
 }
 
 func (d *distance) IsEqual(d1 *distance) bool {
@@ -59,19 +59,11 @@ func (t1 *temperature) IsEqual(t2 *temperature) bool {
 	return t1.measurement.IsEqual(&t2.measurement)
 }
 
-func newMeasurement(value float64, unit Unit) (*measurement, error) {
-	if value <= 0 {
-		return nil, errors.New("cannot create struct with zero or negative value")
-	}
-
-	return &measurement{
-		value:     value,
-		unit:      unit,
-		conversed: value * unit.baseConversionFactor,
-	}, nil
-}
 
 func NewDistance(i float64, unit Unit) (*distance, error) {
+	if i<=0{
+		return nil,errors.New("Cannot create distance with negative value")
+	}
 	return &distance{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
 }
 
@@ -84,13 +76,13 @@ func NewTemperature(i float64, unit Unit) (*temperature, error) {
 }
 
 func (m *measurement) inBase() (*measurement){
-	convertedValue:= math.Floor((m.value+ m.unit.baseAdditionFactor) * m.unit.baseConversionFactor)
+	convertedValue:= (m.value + m.unit.baseAdditionFactor) * m.unit.baseConversionFactor
 	return &measurement{value: convertedValue, unit: m.unit}
 }
 
 func (m *measurement) Add(m1 *measurement) *measurement {
 
-	result := m.conversed + m1.conversed
+	result := m.conversed+ m1.conversed
 	baseFactor := m.unit.baseConversionFactor
 	return &measurement{
 		value:     result / baseFactor,
