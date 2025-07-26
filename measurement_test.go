@@ -341,3 +341,11 @@ func Test273KelvinEquals32Fahrenheit(t *testing.T) {
 		t.Errorf("273.15 Kelvin should be equal to 32 degree fahrenheit")
 	}
 }
+
+func TestCannotCreateTemperatureBelowMinus273Celsius(t *testing.T){
+	_,err:=NewTemperature(-300, celsius)
+	if err==nil{
+		t.Errorf("Cannot create Temperature below -273.15 Celcius")
+	}
+
+}
