@@ -48,6 +48,10 @@ type temperature struct {
 	measurement
 }
 
+func (u Unit) toBase(value float64) float64 {
+	return (value + u.baseAdditionFactor) * u.baseConversionFactor
+}
+
 func (d *measurement) IsEqual(d1 *measurement) bool {
 	return d.conversed == d1.conversed
 }
