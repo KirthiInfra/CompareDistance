@@ -59,36 +59,35 @@ func (t1 *temperature) IsEqual(t2 *temperature) bool {
 	return t1.measurement.IsEqual(&t2.measurement)
 }
 
-
 func NewDistance(i float64, unit Unit) (*distance, error) {
-	if i<=0{
-		return nil,errors.New("Cannot create distance with negative value")
+	if i <= 0 {
+		return nil, errors.New("Cannot create distance with negative value")
 	}
 	return &distance{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
 }
 
 func NewWeight(i float64, unit Unit) (*weight, error) {
-	if i<=0{
-		return nil,errors.New("Cannot create weight with negative value")
+	if i <= 0 {
+		return nil, errors.New("Cannot create weight with negative value")
 	}
 	return &weight{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
 }
 
 func NewTemperature(i float64, unit Unit) (*temperature, error) {
-	if i<(-273.15){
-		return nil,errors.New("Cannot create Temperature below -273.15 Celsius")
+	if i < (-273.15) {
+		return nil, errors.New("Cannot create Temperature below -273.15 Celsius")
 	}
 	return &temperature{measurement{value: i, unit: unit, conversed: math.Floor((i + unit.baseAdditionFactor) * unit.baseConversionFactor)}}, nil
 }
 
-func (m *measurement) inBase() (*measurement){
-	convertedValue:= (m.value + m.unit.baseAdditionFactor) * m.unit.baseConversionFactor
+func (m *measurement) inBase() *measurement {
+	convertedValue := (m.value + m.unit.baseAdditionFactor) * m.unit.baseConversionFactor
 	return &measurement{value: convertedValue, unit: m.unit}
 }
 
 func (m *measurement) Add(m1 *measurement) *measurement {
 
-	result := m.conversed+ m1.conversed
+	result := m.conversed + m1.conversed
 	baseFactor := m.unit.baseConversionFactor
 	return &measurement{
 		value:     result / baseFactor,

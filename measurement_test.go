@@ -135,7 +135,7 @@ func TestAddTwoDistanceInKilometer(t *testing.T) {
 
 	d1, _ := NewDistance(5, kilometer)
 	d2, _ := NewDistance(1000, meter)
-	
+
 	result := d1.Add(d2)
 
 	if result.value != 6 {
@@ -150,7 +150,7 @@ func TestAddTwoDistanceInKilometer(t *testing.T) {
 func TestAddTwoDistanceInCentimeter(t *testing.T) {
 	d1, _ := NewDistance(5, centimeter)
 	d2, _ := NewDistance(1, meter)
-	
+
 	result := d1.measurement.Add(&d2.measurement)
 
 	if result.value != 105 {
@@ -342,9 +342,9 @@ func Test273KelvinEquals32Fahrenheit(t *testing.T) {
 	}
 }
 
-func TestCannotCreateTemperatureBelowMinus273Celsius(t *testing.T){
-	_,err:=NewTemperature(-300, celsius)
-	if err==nil{
+func TestCannotCreateTemperatureBelowMinus273Celsius(t *testing.T) {
+	_, err := NewTemperature(-300, celsius)
+	if err == nil {
 		t.Errorf("Cannot create Temperature below -273.15 Celcius")
 	}
 
