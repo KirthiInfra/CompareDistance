@@ -5,6 +5,11 @@ import (
 	"math"
 )
 
+type UnitConverter interface {
+	toBase(value float64) float64
+	name() string
+}
+
 type Unit struct {
 	name                 string
 	baseConversionFactor float64
