@@ -122,8 +122,8 @@ func TestAddTwoDistanceInMeter(t *testing.T) {
 	oneKilometer, _ := NewDistance(1, kilometer)
 	result := fiveMeter.Add(oneKilometer)
 
-	if result.conversed != 1005 {
-		t.Errorf("cannot expected error for invalid unit, got none")
+	if result.value != 1005 {
+		t.Errorf("Expected distance in meter: 1005 but got: %f", result.value)
 	}
 	if result.unit != meter {
 		t.Errorf("cannot expected error for invalid unit, got none")
@@ -192,7 +192,7 @@ func TestAdd100CentimeterAnd100Centimeter(t *testing.T) {
 	hundredCentimeter2, _ := NewDistance(100, centimeter)
 	result := hundredCentimeter1.Add(hundredCentimeter2)
 
-	if result.conversed != 2 {
+	if result.value != 200 {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
 	if result.unit != centimeter {
@@ -230,8 +230,8 @@ func TestAdd100GramAnd1Kilogram(t *testing.T) {
 	oneKilogram, _ := NewWeight(1, kilogram)
 	result := hundredGram.Add(oneKilogram)
 
-	if result.conversed != 1100 {
-		t.Errorf("expected value in gram: 1100, but actual value in gram: %f", result.conversed)
+	if result.value != 1100 {
+		t.Errorf("expected value in gram: 1100, but actual value in gram: %f", result.value)
 	}
 	if result.unit != gram {
 		t.Errorf("expected unit: gram, but actual unit: %v", result.unit)

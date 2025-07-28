@@ -38,9 +38,8 @@ var (
 )
 
 type measurement struct {
-	value     float64
-	unit      Unit
-	conversed float64
+	value float64
+	unit  Unit
 }
 
 type distance struct {
@@ -72,14 +71,14 @@ func NewDistance(i float64, unit Unit) (*distance, error) {
 	if i <= 0 {
 		return nil, errors.New("Cannot create distance with negative value")
 	}
-	return &distance{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
+	return &distance{measurement{value: i, unit: unit}}, nil
 }
 
 func NewWeight(i float64, unit Unit) (*weight, error) {
 	if i <= 0 {
 		return nil, errors.New("Cannot create weight with negative value")
 	}
-	return &weight{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
+	return &weight{measurement{value: i, unit: unit}}, nil
 }
 
 func NewTemperature(i float64, unit TemperatureUnit) (*temperature, error) {
@@ -104,9 +103,8 @@ func (m *measurement) Add(m1 *measurement) *measurement {
 	result := m.inBase().value + m1.inBase().value
 	baseFactor := m.unit.baseConversionFactor
 	return &measurement{
-		value:     result / baseFactor,
-		unit:      m.unit,
-		conversed: result,
+		value: result / baseFactor,
+		unit:  m.unit,
 	}
 }
 
