@@ -98,16 +98,6 @@ func (m *temperature) inBase() *temperature {
 	return &temperature{value: convertedValue, unit: m.unit}
 }
 
-func (m *measurement) Add(m1 *measurement) *measurement {
-
-	result := m.inBase().value + m1.inBase().value
-	baseFactor := m.unit.baseConversionFactor
-	return &measurement{
-		value: result / baseFactor,
-		unit:  m.unit,
-	}
-}
-
 func (d1 *distance) Add(d2 *distance) *distance {
 	result := d1.inBase().value + d2.inBase().value
 	baseFactor := d1.unit.baseConversionFactor
@@ -118,5 +108,10 @@ func (d1 *distance) Add(d2 *distance) *distance {
 }
 
 func (w1 *weight) Add(w2 *weight) *weight {
-	return &weight{*w1.measurement.Add(&w2.measurement)}
+	result := w1.inBase().value + w2.inBase().value
+	baseFactor := w1.unit.baseConversionFactor
+	return &weight{measurement{
+		value: result / baseFactor,
+		unit:  w1.unit,
+	}}
 }
