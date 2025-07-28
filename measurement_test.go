@@ -152,7 +152,7 @@ func TestAddTwoDistanceInCentimeter(t *testing.T) {
 	d2, _ := NewDistance(1, meter)
 
 	result := d1.measurement.Add(&d2.measurement)
-	
+
 	if result.value != 105 {
 		t.Errorf("cannot expected error for invalid unit, got none")
 	}
@@ -252,17 +252,6 @@ func Test0CelsiusEquals0Celsius(t *testing.T) {
 	if result != true {
 		t.Errorf("0 degree celsius should be equal to 0 degree celsius")
 	}
-}
-
-func TestAdd1CelsiusAnd1Celsius(t *testing.T) {
-	oneCelsius1, _ := NewTemperature(1, celsius)
-	oneCelsius2, _ := NewTemperature(2, celsius)
-	result := oneCelsius1.Add(oneCelsius2)
-
-	if result != nil {
-		t.Errorf("Temperature cannot be added")
-	}
-
 }
 
 func TestNewTemperatureWithFahrenheit(t *testing.T) {
