@@ -5,6 +5,10 @@ import (
 	"math"
 )
 
+type EqualityChecker interface {
+	IsEqual() bool
+}
+
 type Unit struct {
 	name                 string
 	baseConversionFactor float64
