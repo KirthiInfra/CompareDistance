@@ -47,8 +47,9 @@ type temperature struct {
 	measurement
 }
 
+
 func (d *measurement) IsEqual(d1 *measurement) bool {
-	return d.conversed == d1.conversed
+	return d.inBase().value == d1.inBase().value
 }
 
 func (d *distance) IsEqual(d1 *distance) bool {
@@ -85,7 +86,7 @@ func NewTemperature(i float64, unit Unit) (*temperature, error) {
 }
 
 func (m *measurement) inBase() *measurement {
-	convertedValue := (m.value + m.unit.baseAdditionFactor) * m.unit.baseConversionFactor
+	convertedValue := math.Floor((m.value + m.unit.baseAdditionFactor) * m.unit.baseConversionFactor)
 	return &measurement{value: convertedValue, unit: m.unit}
 }
 
