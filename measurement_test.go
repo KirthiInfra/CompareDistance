@@ -151,7 +151,7 @@ func TestAddTwoDistanceInCentimeter(t *testing.T) {
 	d1, _ := NewDistance(5, centimeter)
 	d2, _ := NewDistance(1, meter)
 
-	result := d1.measurement.Add(&d2.measurement)
+	result := d1.Add(d2)
 
 	if result.value != 105 {
 		t.Errorf("cannot expected error for invalid unit, got none")

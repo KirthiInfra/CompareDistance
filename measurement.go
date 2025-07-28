@@ -109,7 +109,12 @@ func (m *measurement) Add(m1 *measurement) *measurement {
 }
 
 func (d1 *distance) Add(d2 *distance) *distance {
-	return &distance{*d1.measurement.Add(&d2.measurement)}
+	result := d1.inBase().value + d2.inBase().value
+	baseFactor := d1.unit.baseConversionFactor
+	return &distance{measurement{
+		value: result / baseFactor,
+		unit:  d1.unit,
+	}}
 }
 
 func (w1 *weight) Add(w2 *weight) *weight {
