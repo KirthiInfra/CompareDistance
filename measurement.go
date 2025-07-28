@@ -56,10 +56,6 @@ type temperature struct {
 	unit  TemperatureUnit
 }
 
-func (d *measurement) IsEqual(d1 *measurement) bool {
-	return math.Floor(d.inBase().value) == math.Floor(d1.inBase().value)
-}
-
 func (d *distance) IsEqual(d1 *distance) bool {
 	return d.inBase().value == d1.inBase().value
 }
