@@ -282,6 +282,7 @@ func Test0CelsiusEquals32Fahrenheit(t *testing.T) {
 func Test100CelsiusEquals212Fahrenheit(t *testing.T) {
 	hundredCelsius, _ := NewTemperature(100, celsius)
 	twoHundredAndTwelveFahrenheit, _ := NewTemperature(212, fahrenheit)
+
 	result := hundredCelsius.IsEqual(twoHundredAndTwelveFahrenheit)
 	if result != true {
 		t.Errorf("100 degree celsius should be equal to 212 degree fahrenheit")
@@ -291,7 +292,18 @@ func Test100CelsiusEquals212Fahrenheit(t *testing.T) {
 func Test212FahrenheitEqual100Celsius(t *testing.T) {
 	twoHundredAndTwelveFahrenheit, _ := NewTemperature(212, fahrenheit)
 	hundredCelsius, _ := NewTemperature(100, celsius)
+
 	result := twoHundredAndTwelveFahrenheit.IsEqual(hundredCelsius)
+	if result != true {
+		t.Errorf("212 degree fahrenheit should be equal to 100 degree celsius")
+	}
+}
+
+func Test100CelsiusEqual212Fahrenheit(t *testing.T) {
+	hundredCelsius, _ := NewTemperature(100, celsius)
+	twoHundredAndTwelveFahrenheit, _ := NewTemperature(212, fahrenheit)
+
+	result := hundredCelsius.IsEqual(twoHundredAndTwelveFahrenheit)
 	if result != true {
 		t.Errorf("212 degree fahrenheit should be equal to 100 degree celsius")
 	}
@@ -326,6 +338,7 @@ func Test273KelvinEquals32Fahrenheit(t *testing.T) {
 	twoSeventyThreeKelvin, _ := NewTemperature(273.15, kelvin)
 	thirtyTwoFahrenheit, _ := NewTemperature(32, fahrenheit)
 	result := twoSeventyThreeKelvin.IsEqual(thirtyTwoFahrenheit)
+
 	if result != true {
 		t.Errorf("273.15 Kelvin should be equal to 32 degree fahrenheit")
 	}

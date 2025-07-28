@@ -16,7 +16,11 @@ type Adder interface {
 type Unit struct {
 	name                 string
 	baseConversionFactor float64
-	baseAdditionFactor   float64
+}
+
+type TemperatureUnit struct {
+	unit               Unit
+	baseAdditionFactor float64
 }
 
 var (
@@ -28,9 +32,9 @@ var (
 	kilogram  = Unit{name: "kg", baseConversionFactor: 1000}
 	milligram = Unit{name: "mg", baseConversionFactor: 0.001}
 
-	celsius    = Unit{name: "celsius", baseConversionFactor: 1}
-	fahrenheit = Unit{name: "fahrenheit", baseConversionFactor: math.Ceil((5.0/9.0)*100) / 100, baseAdditionFactor: -32}
-	kelvin     = Unit{name: "kelvin", baseConversionFactor: 1, baseAdditionFactor: -273.15}
+	celsius    = TemperatureUnit{unit: Unit{name: "celsius", baseConversionFactor: 1}, baseAdditionFactor: 0}
+	fahrenheit = TemperatureUnit{unit: Unit{name: "fahrenheit", baseConversionFactor: math.Ceil((5.0/9.0)*100) / 100}, baseAdditionFactor: -32}
+	kelvin     = TemperatureUnit{unit: Unit{name: "kelvin", baseConversionFactor: 1}, baseAdditionFactor: -273.15}
 )
 
 type measurement struct {
@@ -48,7 +52,8 @@ type weight struct {
 }
 
 type temperature struct {
-	measurement
+	value float64
+	unit  TemperatureUnit
 }
 
 func (d *measurement) IsEqual(d1 *measurement) bool {
@@ -64,7 +69,7 @@ func (w1 *weight) IsEqual(w2 *weight) bool {
 }
 
 func (t1 *temperature) IsEqual(t2 *temperature) bool {
-	return t1.measurement.IsEqual(&t2.measurement)
+	return math.Abs(t1.inBase().value-t2.inBase().value) < 1
 }
 
 func NewDistance(i float64, unit Unit) (*distance, error) {
@@ -81,16 +86,21 @@ func NewWeight(i float64, unit Unit) (*weight, error) {
 	return &weight{measurement{value: i, unit: unit, conversed: i * unit.baseConversionFactor}}, nil
 }
 
-func NewTemperature(i float64, unit Unit) (*temperature, error) {
+func NewTemperature(i float64, unit TemperatureUnit) (*temperature, error) {
 	if i < (-273.15) {
 		return nil, errors.New("Cannot create Temperature below -273.15 Celsius")
 	}
-	return &temperature{measurement{value: i, unit: unit, conversed: math.Floor((i + unit.baseAdditionFactor) * unit.baseConversionFactor)}}, nil
+	return &temperature{value: i, unit: unit}, nil
 }
 
 func (m *measurement) inBase() *measurement {
-	convertedValue := math.Floor(((m.value+m.unit.baseAdditionFactor)*m.unit.baseConversionFactor)*100) / 100
+	convertedValue := m.value * m.unit.baseConversionFactor
 	return &measurement{value: convertedValue, unit: m.unit}
+}
+
+func (m *temperature) inBase() *temperature {
+	convertedValue := math.Floor(((m.value + m.unit.baseAdditionFactor) * m.unit.unit.baseConversionFactor))
+	return &temperature{value: convertedValue, unit: m.unit}
 }
 
 func (m *measurement) Add(m1 *measurement) *measurement {
