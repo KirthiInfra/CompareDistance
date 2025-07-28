@@ -9,6 +9,10 @@ type EqualityChecker interface {
 	IsEqual() bool
 }
 
+type Adder interface {
+	Add() interface{}
+}
+
 type Unit struct {
 	name                 string
 	baseConversionFactor float64
