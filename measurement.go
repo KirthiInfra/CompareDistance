@@ -65,7 +65,7 @@ func (d *distance) IsEqual(d1 *distance) bool {
 }
 
 func (w1 *weight) IsEqual(w2 *weight) bool {
-	return w1.measurement.IsEqual(&w2.measurement)
+	return w1.inBase().value == w2.inBase().value
 }
 
 func (t1 *temperature) IsEqual(t2 *temperature) bool {
