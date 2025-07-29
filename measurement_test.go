@@ -375,3 +375,13 @@ func TestCreateEqualityCheckerInterface(t *testing.T) {
 	equitableMeasurement.IsEqual(temp)
 
 }
+
+func Test100MeterEquals100MeterUsingEqualityChecker(t *testing.T) {
+	hundredMeter1, _ := NewDistance(100, Meter)
+	var e EqualityChecker
+	e = hundredMeter1
+	result := e.IsEqual(hundredMeter1)
+	if result != true {
+		t.Errorf("100 meter should be equal to 100 meter")
+	}
+}
