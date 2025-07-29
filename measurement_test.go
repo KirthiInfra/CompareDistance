@@ -385,3 +385,13 @@ func Test100MeterEquals100MeterUsingEqualityChecker(t *testing.T) {
 		t.Errorf("100 meter should be equal to 100 meter")
 	}
 }
+
+func Test1KilogramEquals1KilogramUsingEqualityChecker(t *testing.T) {
+	oneKilogram, _ := NewWeight(1, Kilogram)
+	var e EqualityChecker
+	e = oneKilogram
+	result := e.IsEqual(oneKilogram)
+	if result != true {
+		t.Errorf("1 Kilogram should be equal to 1 Kilogram")
+	}
+}

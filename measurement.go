@@ -51,10 +51,6 @@ type EqualityChecker interface {
 	IsEqual(equitableMeasurement EqualityChecker) bool
 }
 
-func (w1 *weight) IsEqual(w2 *weight) bool {
-	return w1.inBase().value == w2.inBase().value
-}
-
 func (d1 *distance) IsEqual(e EqualityChecker) bool {
 	d2, ok := e.(*distance)
 	if !ok {
@@ -69,6 +65,14 @@ func (t1 *temperature) IsEqual(e EqualityChecker) bool {
 		return false
 	}
 	return math.Abs(t1.inBase().value-t2.inBase().value) < 1
+}
+
+func (w1 *weight) IsEqual(e EqualityChecker) bool {
+	w2, ok := e.(*weight)
+	if !ok {
+		return false
+	}
+	return w1.inBase().value == w2.inBase().value
 }
 
 func NewDistance(i float64, unit Unit) (*distance, error) {
