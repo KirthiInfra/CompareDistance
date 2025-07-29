@@ -24,17 +24,17 @@ type TemperatureUnit struct {
 }
 
 var (
-	meter      = Unit{name: "m", baseConversionFactor: 1}
-	kilometer  = Unit{name: "km", baseConversionFactor: 1000}
-	centimeter = Unit{name: "cm", baseConversionFactor: 0.01}
+	Meter      = Unit{name: "m", baseConversionFactor: 1}
+	Kilometer  = Unit{name: "km", baseConversionFactor: 1000}
+	Centimeter = Unit{name: "cm", baseConversionFactor: 0.01}
 
-	gram      = Unit{name: "g", baseConversionFactor: 1}
-	kilogram  = Unit{name: "kg", baseConversionFactor: 1000}
-	milligram = Unit{name: "mg", baseConversionFactor: 0.001}
+	Gram      = Unit{name: "g", baseConversionFactor: 1}
+	Kilogram  = Unit{name: "kg", baseConversionFactor: 1000}
+	Milligram = Unit{name: "mg", baseConversionFactor: 0.001}
 
-	celsius    = TemperatureUnit{unit: Unit{name: "celsius", baseConversionFactor: 1}, baseAdditionFactor: 0}
-	fahrenheit = TemperatureUnit{unit: Unit{name: "fahrenheit", baseConversionFactor: math.Ceil((5.0/9.0)*100) / 100}, baseAdditionFactor: -32}
-	kelvin     = TemperatureUnit{unit: Unit{name: "kelvin", baseConversionFactor: 1}, baseAdditionFactor: -273.15}
+	Celsius    = TemperatureUnit{unit: Unit{name: "celsius", baseConversionFactor: 1}, baseAdditionFactor: 0}
+	Fahrenheit = TemperatureUnit{unit: Unit{name: "fahrenheit", baseConversionFactor: math.Ceil((5.0/9.0)*100) / 100}, baseAdditionFactor: -32}
+	Kelvin     = TemperatureUnit{unit: Unit{name: "kelvin", baseConversionFactor: 1}, baseAdditionFactor: -273.15}
 )
 
 type measurement struct {
