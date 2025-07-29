@@ -351,3 +351,19 @@ func TestCannotCreateTemperatureBelowMinus273Celsius(t *testing.T) {
 	}
 
 }
+
+func TestCannotCreateTemperatureBelow0Kelvin(t *testing.T) {
+	_, err := NewTemperature(-1, Kelvin)
+	if err == nil {
+		t.Errorf("Cannot create Temperature below 0 Kelvin")
+	}
+
+}
+
+func TestCannotCreateTemperatureBelowMinus459Fahrenheit(t *testing.T) {
+	_, err := NewTemperature(-460, Fahrenheit)
+	if err == nil {
+		t.Errorf("Cannot create Temperature below 0 Kelvin")
+	}
+
+}

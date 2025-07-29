@@ -82,8 +82,8 @@ func NewWeight(i float64, unit Unit) (*weight, error) {
 }
 
 func NewTemperature(i float64, unit TemperatureUnit) (*temperature, error) {
-	if i < (-273.15) {
-		return nil, errors.New("Cannot create Temperature below -273.15 Celsius")
+	if math.Floor(((i+unit.baseAdditionFactor)*unit.unit.baseConversionFactor)*100)/100 < (-273.15) {
+		return nil, errors.New("Cannot create Temperature below range")
 	}
 	return &temperature{value: i, unit: unit}, nil
 }
