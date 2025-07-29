@@ -126,7 +126,7 @@ func TestAddTwoDistanceInMeter(t *testing.T) {
 		t.Errorf("Expected distance in meter: 1005 but got: %f", result.(*distance).value)
 	}
 	if result.(*distance).unit != Meter {
-		t.Errorf("cannot expected error for invalid unit, got none")
+		t.Errorf("Expected unit: Meter but got: %v", result.(*distance).unit)
 	}
 
 }
@@ -139,10 +139,10 @@ func TestAddTwoDistanceInKilometer(t *testing.T) {
 	result, _ := d1.Add(d2)
 
 	if result.(*distance).value != 6 {
-		t.Errorf("cannot expected error for invalid unit, got none")
+		t.Errorf("Expected distance in Kilometer: 6 but got: %f", result.(*distance).value)
 	}
 	if result.(*distance).unit != Kilometer {
-		t.Errorf("cannot expected error for invalid unit, got none")
+		t.Errorf("Expected unit: Kilometer but got: %v", result.(*distance).unit)
 	}
 
 }
@@ -154,10 +154,10 @@ func TestAddTwoDistanceInCentimeter(t *testing.T) {
 	result, _ := d1.Add(d2)
 
 	if result.(*distance).value != 105 {
-		t.Errorf("cannot expected error for invalid unit, got none")
+		t.Errorf("Expected distance in centimeter: 105 but got: %f", result.(*distance).value)
 	}
 	if result.(*distance).unit != Centimeter {
-		t.Errorf("cannot expected error for invalid unit, got none")
+		t.Errorf("Expected unit: centimeter but got: %v", result.(*distance).unit)
 	}
 
 }
@@ -193,10 +193,10 @@ func TestAdd100CentimeterAnd100Centimeter(t *testing.T) {
 	result, _ := hundredCentimeter1.Add(hundredCentimeter2)
 
 	if result.(*distance).value != 200 {
-		t.Errorf("cannot expected error for invalid unit, got none")
+		t.Errorf("Expected distance in centimeter: 200 but got: %f", result.(*distance).value)
 	}
 	if result.(*distance).unit != Centimeter {
-		t.Errorf("cannot expected error for invalid unit, got none")
+		t.Errorf("Expected unit: centimeter but got: %v", result.(*distance).unit)
 	}
 }
 
@@ -363,7 +363,7 @@ func TestCannotCreateTemperatureBelow0Kelvin(t *testing.T) {
 func TestCannotCreateTemperatureBelowMinus459Fahrenheit(t *testing.T) {
 	_, err := NewTemperature(-460, Fahrenheit)
 	if err == nil {
-		t.Errorf("Cannot create Temperature below 0 Kelvin")
+		t.Errorf("Cannot create Temperature below -459.67 Fahrenheit")
 	}
 
 }
