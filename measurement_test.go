@@ -120,7 +120,7 @@ func TestCannotCreateDistanceWithNegativeValue(t *testing.T) {
 func TestAddTwoDistanceInMeter(t *testing.T) {
 	fiveMeter, _ := NewDistance(5, Meter)
 	oneKilometer, _ := NewDistance(1, Kilometer)
-	result := fiveMeter.Add(oneKilometer)
+	result, _ := fiveMeter.Add(oneKilometer)
 
 	if result.value != 1005 {
 		t.Errorf("Expected distance in meter: 1005 but got: %f", result.value)
@@ -136,7 +136,7 @@ func TestAddTwoDistanceInKilometer(t *testing.T) {
 	d1, _ := NewDistance(5, Kilometer)
 	d2, _ := NewDistance(1000, Meter)
 
-	result := d1.Add(d2)
+	result, _ := d1.Add(d2)
 
 	if result.value != 6 {
 		t.Errorf("cannot expected error for invalid unit, got none")
@@ -151,7 +151,7 @@ func TestAddTwoDistanceInCentimeter(t *testing.T) {
 	d1, _ := NewDistance(5, Centimeter)
 	d2, _ := NewDistance(1, Meter)
 
-	result := d1.Add(d2)
+	result, _ := d1.Add(d2)
 
 	if result.value != 105 {
 		t.Errorf("cannot expected error for invalid unit, got none")
@@ -190,7 +190,7 @@ func Test1KilometerEquals1000Meter(t *testing.T) {
 func TestAdd100CentimeterAnd100Centimeter(t *testing.T) {
 	hundredCentimeter1, _ := NewDistance(100, Centimeter)
 	hundredCentimeter2, _ := NewDistance(100, Centimeter)
-	result := hundredCentimeter1.Add(hundredCentimeter2)
+	result, _ := hundredCentimeter1.Add(hundredCentimeter2)
 
 	if result.value != 200 {
 		t.Errorf("cannot expected error for invalid unit, got none")
@@ -394,4 +394,11 @@ func Test1KilogramEquals1KilogramUsingEqualityChecker(t *testing.T) {
 	if result != true {
 		t.Errorf("1 Kilogram should be equal to 1 Kilogram")
 	}
+}
+
+func TestCreateAdderInterface(t *testing.T) {
+	var addMeasurement Adder
+	dist, _ := NewDistance(30, Meter)
+	addMeasurement = dist
+	addMeasurement.Add(dist)
 }

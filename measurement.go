@@ -51,6 +51,10 @@ type EqualityChecker interface {
 	IsEqual(equitableMeasurement EqualityChecker) bool
 }
 
+type Adder interface {
+	Add(addMeasurement Adder) (*distance, error)
+}
+
 func (d1 *distance) IsEqual(e EqualityChecker) bool {
 	d2, ok := e.(*distance)
 	if !ok {
@@ -106,13 +110,17 @@ func (m *temperature) inBase() *temperature {
 	return &temperature{value: convertedValue, unit: m.unit}
 }
 
-func (d1 *distance) Add(d2 *distance) *distance {
+func (d1 *distance) Add(a Adder) (*distance, error) {
+	d2, ok := a.(*distance)
+	if !ok {
+		return nil, errors.New("Operand types do not match")
+	}
 	result := d1.inBase().value + d2.inBase().value
 	baseFactor := d1.unit.baseConversionFactor
 	return &distance{measurement{
 		value: result / baseFactor,
 		unit:  d1.unit,
-	}}
+	}}, nil
 }
 
 func (w1 *weight) Add(w2 *weight) *weight {
