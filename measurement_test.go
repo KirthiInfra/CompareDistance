@@ -367,3 +367,11 @@ func TestCannotCreateTemperatureBelowMinus459Fahrenheit(t *testing.T) {
 	}
 
 }
+
+func TestCreateEqualityCheckerInterface(t *testing.T) {
+	var equitableMeasurement EqualityChecker
+	temp, _ := NewTemperature(30, Celsius)
+	equitableMeasurement = temp
+	equitableMeasurement.IsEqual(temp)
+
+}

@@ -5,14 +5,6 @@ import (
 	"math"
 )
 
-type EqualityChecker interface {
-	IsEqual() bool
-}
-
-type Adder interface {
-	Add() interface{}
-}
-
 type Unit struct {
 	name                 string
 	baseConversionFactor float64
@@ -55,6 +47,10 @@ type temperature struct {
 	unit  TemperatureUnit
 }
 
+type EqualityChecker interface {
+	IsEqual(equitableMeasurement EqualityChecker) bool
+}
+
 func (d *distance) IsEqual(d1 *distance) bool {
 	return d.inBase().value == d1.inBase().value
 }
@@ -63,7 +59,11 @@ func (w1 *weight) IsEqual(w2 *weight) bool {
 	return w1.inBase().value == w2.inBase().value
 }
 
-func (t1 *temperature) IsEqual(t2 *temperature) bool {
+func (t1 *temperature) IsEqual(e EqualityChecker) bool {
+	t2, ok := e.(*temperature)
+	if !ok {
+		return false
+	}
 	return math.Abs(t1.inBase().value-t2.inBase().value) < 1
 }
 
