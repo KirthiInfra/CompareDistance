@@ -79,9 +79,9 @@ func NewTemperature(i float64, unit TemperatureUnit) (*temperature, error) {
 	return &temperature{value: i, unit: unit}, nil
 }
 
-func (m *distance) inBase() *distance {
-	convertedValue := m.value * m.unit.baseConversionFactor
-	return &distance{value: convertedValue, unit: m.unit}
+func (m *DistanceUnit) toMeter(value float64) float64 {
+	convertedValue := value * m.baseConversionFactor
+	return convertedValue
 }
 
 func (w *weight) inBase() *weight {
@@ -99,7 +99,7 @@ func (d1 *distance) IsEqual(e EqualityChecker) bool {
 	if !ok {
 		return false
 	}
-	return d1.inBase().value == d2.inBase().value
+	return d1.unit.toMeter(d1.value) == d2.unit.toMeter(d2.value)
 }
 
 func (t1 *temperature) IsEqual(e EqualityChecker) bool {
@@ -123,7 +123,7 @@ func (d1 *distance) Add(a Adder) (Adder, error) {
 	if !ok {
 		return nil, errors.New("Operand types do not match")
 	}
-	result := d1.inBase().value + d2.inBase().value
+	result := d1.unit.toMeter(d1.value) + d2.unit.toMeter(d2.value)
 	baseFactor := d1.unit.baseConversionFactor
 	return &distance{
 		value: result / baseFactor,
