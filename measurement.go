@@ -11,8 +11,9 @@ type Unit struct {
 }
 
 type TemperatureUnit struct {
-	unit               Unit
-	baseAdditionFactor float64
+	name                 string
+	baseConversionFactor float64
+	baseAdditionFactor   float64
 }
 
 type DistanceUnit struct {
@@ -34,9 +35,9 @@ var (
 	Kilogram  = WeightUnit{name: "kg", baseConversionFactor: 1000}
 	Milligram = WeightUnit{name: "mg", baseConversionFactor: 0.001}
 
-	Celsius    = TemperatureUnit{unit: Unit{name: "celsius", baseConversionFactor: 1}, baseAdditionFactor: 0}
-	Fahrenheit = TemperatureUnit{unit: Unit{name: "fahrenheit", baseConversionFactor: math.Ceil((5.0/9.0)*100) / 100}, baseAdditionFactor: -32}
-	Kelvin     = TemperatureUnit{unit: Unit{name: "kelvin", baseConversionFactor: 1}, baseAdditionFactor: -273.15}
+	Celsius    = TemperatureUnit{name: "celsius", baseConversionFactor: 1, baseAdditionFactor: 0}
+	Fahrenheit = TemperatureUnit{name: "fahrenheit", baseConversionFactor: math.Ceil((5.0/9.0)*100) / 100, baseAdditionFactor: -32}
+	Kelvin     = TemperatureUnit{name: "kelvin", baseConversionFactor: 1, baseAdditionFactor: -273.15}
 )
 
 type measurement struct {
@@ -82,7 +83,7 @@ func NewWeight(i float64, unit WeightUnit) (*weight, error) {
 }
 
 func NewTemperature(i float64, unit TemperatureUnit) (*temperature, error) {
-	if math.Floor(((i+unit.baseAdditionFactor)*unit.unit.baseConversionFactor)*100)/100 < (-273.15) {
+	if math.Floor(((i+unit.baseAdditionFactor)*unit.baseConversionFactor)*100)/100 < (-273.15) {
 		return nil, errors.New("Cannot create Temperature below range")
 	}
 	return &temperature{value: i, unit: unit}, nil
@@ -104,7 +105,7 @@ func (w *weight) inBase() *weight {
 }
 
 func (m *temperature) inBase() *temperature {
-	convertedValue := math.Floor(((m.value + m.unit.baseAdditionFactor) * m.unit.unit.baseConversionFactor))
+	convertedValue := math.Floor(((m.value + m.unit.baseAdditionFactor) * m.unit.baseConversionFactor))
 	return &temperature{value: convertedValue, unit: m.unit}
 }
 
