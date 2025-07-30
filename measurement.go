@@ -20,14 +20,19 @@ type DistanceUnit struct {
 	baseConversionFactor float64
 }
 
+type WeightUnit struct {
+	name                 string
+	baseConversionFactor float64
+}
+
 var (
 	Meter      = DistanceUnit{name: "m", baseConversionFactor: 1}
 	Kilometer  = DistanceUnit{name: "km", baseConversionFactor: 1000}
 	Centimeter = DistanceUnit{name: "cm", baseConversionFactor: 0.01}
 
-	Gram      = Unit{name: "g", baseConversionFactor: 1}
-	Kilogram  = Unit{name: "kg", baseConversionFactor: 1000}
-	Milligram = Unit{name: "mg", baseConversionFactor: 0.001}
+	Gram      = WeightUnit{name: "g", baseConversionFactor: 1}
+	Kilogram  = WeightUnit{name: "kg", baseConversionFactor: 1000}
+	Milligram = WeightUnit{name: "mg", baseConversionFactor: 0.001}
 
 	Celsius    = TemperatureUnit{unit: Unit{name: "celsius", baseConversionFactor: 1}, baseAdditionFactor: 0}
 	Fahrenheit = TemperatureUnit{unit: Unit{name: "fahrenheit", baseConversionFactor: math.Ceil((5.0/9.0)*100) / 100}, baseAdditionFactor: -32}
@@ -45,7 +50,8 @@ type distance struct {
 }
 
 type weight struct {
-	measurement
+	value float64
+	unit  WeightUnit
 }
 
 type temperature struct {
@@ -68,11 +74,11 @@ func NewDistance(i float64, unit DistanceUnit) (*distance, error) {
 	return &distance{value: i, unit: unit}, nil
 }
 
-func NewWeight(i float64, unit Unit) (*weight, error) {
+func NewWeight(i float64, unit WeightUnit) (*weight, error) {
 	if i <= 0 {
 		return nil, errors.New("Cannot create weight with negative value")
 	}
-	return &weight{measurement{value: i, unit: unit}}, nil
+	return &weight{value: i, unit: unit}, nil
 }
 
 func NewTemperature(i float64, unit TemperatureUnit) (*temperature, error) {
@@ -90,6 +96,11 @@ func (m *measurement) inBase() *measurement {
 func (m *distance) inBase() *distance {
 	convertedValue := m.value * m.unit.baseConversionFactor
 	return &distance{value: convertedValue, unit: m.unit}
+}
+
+func (w *weight) inBase() *weight {
+	convertedValue := w.value * w.unit.baseConversionFactor
+	return &weight{value: convertedValue, unit: w.unit}
 }
 
 func (m *temperature) inBase() *temperature {
@@ -141,8 +152,8 @@ func (w1 *weight) Add(a Adder) (Adder, error) {
 	}
 	result := w1.inBase().value + w2.inBase().value
 	baseFactor := w1.unit.baseConversionFactor
-	return &weight{measurement{
+	return &weight{
 		value: result / baseFactor,
 		unit:  w1.unit,
-	}}, nil
+	}, nil
 }
