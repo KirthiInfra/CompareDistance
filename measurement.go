@@ -55,30 +55,6 @@ type Adder interface {
 	Add(addMeasurement Adder) (Adder, error)
 }
 
-func (d1 *distance) IsEqual(e EqualityChecker) bool {
-	d2, ok := e.(*distance)
-	if !ok {
-		return false
-	}
-	return d1.inBase().value == d2.inBase().value
-}
-
-func (t1 *temperature) IsEqual(e EqualityChecker) bool {
-	t2, ok := e.(*temperature)
-	if !ok {
-		return false
-	}
-	return math.Abs(t1.inBase().value-t2.inBase().value) < 1
-}
-
-func (w1 *weight) IsEqual(e EqualityChecker) bool {
-	w2, ok := e.(*weight)
-	if !ok {
-		return false
-	}
-	return w1.inBase().value == w2.inBase().value
-}
-
 func NewDistance(i float64, unit Unit) (*distance, error) {
 	if i <= 0 {
 		return nil, errors.New("Cannot create distance with negative value")
@@ -108,6 +84,30 @@ func (m *measurement) inBase() *measurement {
 func (m *temperature) inBase() *temperature {
 	convertedValue := math.Floor(((m.value + m.unit.baseAdditionFactor) * m.unit.unit.baseConversionFactor))
 	return &temperature{value: convertedValue, unit: m.unit}
+}
+
+func (d1 *distance) IsEqual(e EqualityChecker) bool {
+	d2, ok := e.(*distance)
+	if !ok {
+		return false
+	}
+	return d1.inBase().value == d2.inBase().value
+}
+
+func (t1 *temperature) IsEqual(e EqualityChecker) bool {
+	t2, ok := e.(*temperature)
+	if !ok {
+		return false
+	}
+	return math.Abs(t1.inBase().value-t2.inBase().value) < 1
+}
+
+func (w1 *weight) IsEqual(e EqualityChecker) bool {
+	w2, ok := e.(*weight)
+	if !ok {
+		return false
+	}
+	return w1.inBase().value == w2.inBase().value
 }
 
 func (d1 *distance) Add(a Adder) (Adder, error) {
