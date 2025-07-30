@@ -73,7 +73,7 @@ func NewWeight(i float64, unit WeightUnit) (*weight, error) {
 }
 
 func NewTemperature(i float64, unit TemperatureUnit) (*temperature, error) {
-	if math.Floor(((i+unit.baseAdditionFactor)*unit.baseConversionFactor)*100)/100 < (-273.15) {
+	if unit.toCelsius(i) < (-273.15) {
 		return nil, errors.New("Cannot create Temperature below range")
 	}
 	return &temperature{value: i, unit: unit}, nil
@@ -90,7 +90,7 @@ func (w *WeightUnit) toGram(value float64) float64 {
 }
 
 func (t *TemperatureUnit) toCelsius(value float64) float64 {
-	convertedValue := math.Floor(((value + t.baseAdditionFactor) * t.baseConversionFactor))
+	convertedValue := math.Floor(((value + t.baseAdditionFactor) * t.baseConversionFactor)*100)/100
 	return convertedValue
 }
 

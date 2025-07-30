@@ -1,6 +1,7 @@
 package Measurement
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -289,6 +290,7 @@ func TestNewTemperatureWithKelvin(t *testing.T) {
 func Test0KelvinEquals0Kelvin(t *testing.T) {
 	zeroKelvin1, _ := NewTemperature(0, Kelvin)
 	zeroKelvin2, _ := NewTemperature(0, Kelvin)
+	fmt.Println(Kelvin.toCelsius(0))
 	result := zeroKelvin1.IsEqual(zeroKelvin2)
 	if result != true {
 		t.Errorf("0 Kelvin should be equal to 0 Kelvin")
