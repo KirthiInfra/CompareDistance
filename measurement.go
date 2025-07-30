@@ -40,11 +40,6 @@ var (
 	Kelvin     = TemperatureUnit{name: "kelvin", baseConversionFactor: 1, baseAdditionFactor: -273.15}
 )
 
-type measurement struct {
-	value float64
-	unit  Unit
-}
-
 type distance struct {
 	value float64
 	unit  DistanceUnit
@@ -87,11 +82,6 @@ func NewTemperature(i float64, unit TemperatureUnit) (*temperature, error) {
 		return nil, errors.New("Cannot create Temperature below range")
 	}
 	return &temperature{value: i, unit: unit}, nil
-}
-
-func (m *measurement) inBase() *measurement {
-	convertedValue := m.value * m.unit.baseConversionFactor
-	return &measurement{value: convertedValue, unit: m.unit}
 }
 
 func (m *distance) inBase() *distance {
