@@ -84,9 +84,9 @@ func (m *DistanceUnit) toMeter(value float64) float64 {
 	return convertedValue
 }
 
-func (w *weight) inBase() *weight {
-	convertedValue := w.value * w.unit.baseConversionFactor
-	return &weight{value: convertedValue, unit: w.unit}
+func (w *WeightUnit) toGram(value float64) float64 {
+	convertedValue := value * w.baseConversionFactor
+	return convertedValue
 }
 
 func (m *temperature) inBase() *temperature {
@@ -115,7 +115,7 @@ func (w1 *weight) IsEqual(e EqualityChecker) bool {
 	if !ok {
 		return false
 	}
-	return w1.inBase().value == w2.inBase().value
+	return w1.unit.toGram(w1.value) == w2.unit.toGram(w2.value)
 }
 
 func (d1 *distance) Add(a Adder) (Adder, error) {
@@ -136,7 +136,7 @@ func (w1 *weight) Add(a Adder) (Adder, error) {
 	if !ok {
 		return nil, errors.New("Operand types do not match")
 	}
-	result := w1.inBase().value + w2.inBase().value
+	result := w1.unit.toGram(w1.value) + w2.unit.toGram(w2.value)
 	baseFactor := w1.unit.baseConversionFactor
 	return &weight{
 		value: result / baseFactor,
