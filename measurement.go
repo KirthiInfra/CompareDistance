@@ -89,9 +89,9 @@ func (w *WeightUnit) toGram(value float64) float64 {
 	return convertedValue
 }
 
-func (m *temperature) inBase() *temperature {
-	convertedValue := math.Floor(((m.value + m.unit.baseAdditionFactor) * m.unit.baseConversionFactor))
-	return &temperature{value: convertedValue, unit: m.unit}
+func (t *TemperatureUnit) toCelsius(value float64) float64 {
+	convertedValue := math.Floor(((value + t.baseAdditionFactor) * t.baseConversionFactor))
+	return convertedValue
 }
 
 func (d1 *distance) IsEqual(e EqualityChecker) bool {
@@ -107,7 +107,7 @@ func (t1 *temperature) IsEqual(e EqualityChecker) bool {
 	if !ok {
 		return false
 	}
-	return math.Abs(t1.inBase().value-t2.inBase().value) < 1
+	return math.Abs(t1.unit.toCelsius(t1.value)-t2.unit.toCelsius(t2.value)) < 1
 }
 
 func (w1 *weight) IsEqual(e EqualityChecker) bool {
