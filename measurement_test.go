@@ -8,9 +8,9 @@ func TestCompareDistance(t *testing.T) {
 	tests := []struct {
 		name     string
 		d1Val    float64
-		d1Unit   Unit
+		d1Unit   DistanceUnit
 		d2Val    float64
-		d2Unit   Unit
+		d2Unit   DistanceUnit
 		expected bool
 	}{
 		{
@@ -61,12 +61,6 @@ func TestCompareDistance(t *testing.T) {
 			d2Val: 200000, d2Unit: Centimeter,
 			expected: true,
 		},
-		{
-			name:  "1 kilogram equals to 1000 gram",
-			d1Val: 1, d1Unit: Kilogram,
-			d2Val: 1000, d2Unit: Gram,
-			expected: true,
-		},
 	}
 
 	for _, tt := range tests {
@@ -81,30 +75,6 @@ func TestCompareDistance(t *testing.T) {
 			got := d1.IsEqual(d2)
 			if got != tt.expected {
 				t.Errorf("IsEqual() = %v, want %v", got, tt.expected)
-			}
-		})
-	}
-}
-
-func TestCreateNewMeasurementWithValidParameters(t *testing.T) {
-	tests := []struct {
-		name  string
-		value float64
-		unit  Unit
-	}{
-		{"Valid Meter Unit", 1000, Meter},
-		{"Valid Kilometer Unit", 2, Kilogram},
-		{"Valid Centimeter Unit", 100, Centimeter},
-		{"Valid Kilogram Unit", 5, Kilogram},
-		{"Valid Gram Unit", 500, Gram},
-		{"Valid Milligram Unit", 50000, Milligram},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			_, err := NewDistance(tt.value, tt.unit)
-			if err != nil {
-				t.Errorf("Expected no error, got: %v", err)
 			}
 		})
 	}

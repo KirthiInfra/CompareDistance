@@ -15,10 +15,15 @@ type TemperatureUnit struct {
 	baseAdditionFactor float64
 }
 
+type DistanceUnit struct {
+	name                 string
+	baseConversionFactor float64
+}
+
 var (
-	Meter      = Unit{name: "m", baseConversionFactor: 1}
-	Kilometer  = Unit{name: "km", baseConversionFactor: 1000}
-	Centimeter = Unit{name: "cm", baseConversionFactor: 0.01}
+	Meter      = DistanceUnit{name: "m", baseConversionFactor: 1}
+	Kilometer  = DistanceUnit{name: "km", baseConversionFactor: 1000}
+	Centimeter = DistanceUnit{name: "cm", baseConversionFactor: 0.01}
 
 	Gram      = Unit{name: "g", baseConversionFactor: 1}
 	Kilogram  = Unit{name: "kg", baseConversionFactor: 1000}
@@ -35,7 +40,8 @@ type measurement struct {
 }
 
 type distance struct {
-	measurement
+	value float64
+	unit  DistanceUnit
 }
 
 type weight struct {
@@ -55,11 +61,11 @@ type Adder interface {
 	Add(addMeasurement Adder) (Adder, error)
 }
 
-func NewDistance(i float64, unit Unit) (*distance, error) {
+func NewDistance(i float64, unit DistanceUnit) (*distance, error) {
 	if i <= 0 {
 		return nil, errors.New("Cannot create distance with negative value")
 	}
-	return &distance{measurement{value: i, unit: unit}}, nil
+	return &distance{value: i, unit: unit}, nil
 }
 
 func NewWeight(i float64, unit Unit) (*weight, error) {
@@ -79,6 +85,11 @@ func NewTemperature(i float64, unit TemperatureUnit) (*temperature, error) {
 func (m *measurement) inBase() *measurement {
 	convertedValue := m.value * m.unit.baseConversionFactor
 	return &measurement{value: convertedValue, unit: m.unit}
+}
+
+func (m *distance) inBase() *distance {
+	convertedValue := m.value * m.unit.baseConversionFactor
+	return &distance{value: convertedValue, unit: m.unit}
 }
 
 func (m *temperature) inBase() *temperature {
@@ -117,10 +128,10 @@ func (d1 *distance) Add(a Adder) (Adder, error) {
 	}
 	result := d1.inBase().value + d2.inBase().value
 	baseFactor := d1.unit.baseConversionFactor
-	return &distance{measurement{
+	return &distance{
 		value: result / baseFactor,
 		unit:  d1.unit,
-	}}, nil
+	}, nil
 }
 
 func (w1 *weight) Add(a Adder) (Adder, error) {
