@@ -5,11 +5,6 @@ import (
 	"math"
 )
 
-type Unit struct {
-	name                 string
-	baseConversionFactor float64
-}
-
 type TemperatureUnit struct {
 	name                 string
 	baseConversionFactor float64
